@@ -10,17 +10,19 @@ data in a way not possible in the standard print library of the Arduino.
 
 The following functions are implemented:
 
-* **print64(int64_t, base)** converts a 64 bit integer number to a char array. 
+- **print64(int64_t, base)**  converts a 64 bit integer number to a char array. 
 The plus sign is not printed, neither are leading zero's.
 Base 10 (DEC) and 16 (HEX) are supported and other bases up to 36 can be used.
 Note that negative numbers will always get a minus sign for any base.
 Cast the number to uint64_t to suppress the sign.
-* **print64(uint64_t, base)** converts a unsigned 64 bit int number to a char array. 
+
+- **print64(uint64_t, base)** converts a unsigned 64 bit int number to a char array. 
 No sign is printed, neither are leading zero's. 
 Base 10 (DEC) and 16 (HEX) are supported and bases up to 36 can be used.
 
 ----
-* **sci(double, decimals)** converts a float or double to a char array. 
+
+- **sci(double, decimals)** converts a float or double to a char array. 
 E.g. print(sci(f, 4)) ==> results in "6.7407E+21".
 The existing Arduino print library only supports printing of floats and
 doubles up toabout 4E9 while the range of floats goes up to ~1E38. 
@@ -29,11 +31,11 @@ support down to about 1E-38 (subnormal even to 1E-45).
 Exisiting library functions **dtostrf()** has no scientific notation 
 and **dtostre()** (AVR) is limited to 7 decimals.
 
-* **eng(double, decimals)** converts a float or double to a char array. 
+- **eng(double, decimals)** converts a float or double to a char array. 
 E.g. print(eng(f, 4)) ==> results in "6.7407E+21".
 Note the exponent created by **eng()** is always a multiple of 3.
 
-* **scieng(double, decimals, expmultiple)** converts a float or double to a char array. 
+- **scieng(double, decimals, expmultiple)** converts a float or double to a char array. 
 **sci()** and **eng()** use the same underlying function called **scieng()** 
 as the initial code for converting was almost identical.
 Although not intended to be used directly, one can use it. 
@@ -43,6 +45,27 @@ The **scieng()** function works for multiples from 1..9 for the exponent.
 The usability of other values than 1 and 3 are not known.
 Personally I like the multiple of 2 as I get 2 orders of magnitude in the
 mantissa.
+
+----
+
+- **toBytes(val, decimals = 2)** makes from a big number 
+representing an amount of bytes a shorter string usable for displaying.
+The number of decimals is max 3
+    Example  3.292.528 ==> "3.140MB" 
+Value ranges supported are in steps of powers of 1024. 
+These will all be shown in UPPERCASE so KB, MB etc.  
+List of prefixes:
+- kilo mega giga tera (1024\^4)
+- peta exa zetta yotta (1024\^8)
+- xona weka vunda uda (1024\^12)  
+treda Byte == TDB uses 2 chars to indicate the magnitude so that would 
+take extra memory of more complex code.  
+As it is seldom used, "official" support stops with UDA. 
+Should be big enough for some time.
+To have some support the code uses lowercase for the next 8 levels:  
+treda sorta rinta quexa pepta ocha nena minga luma (1024\^21 ~~ 10\^63)
+
+----
 
 More formatting functions might be added in the future.
 
