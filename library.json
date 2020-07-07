@@ -1,6 +1,6 @@
 {
   "name": "printHelpers",
-  "keywords": "Convert int64 uint64 print scientific notation toBytes",
+  "keywords": "Convert, int64, uint64, print, scientific, notation, toBytes",
   "description": "Arduino library to help printing. int64 and uint64 support base 10 (DEC) and 16 (HEX). Scientific notation of floats.",
   "authors":
   [
