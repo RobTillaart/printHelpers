@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PUPROSE: Arduino library to help formatting for printing. 
 //     URL: https://github.com/RobTillaart/printHelpers
 
