@@ -1,4 +1,4 @@
-# Syntax Coloring Map for print64
+# Syntax Coloring Map for printHelpers
 
 # Datatypes (KEYWORD1)
 
