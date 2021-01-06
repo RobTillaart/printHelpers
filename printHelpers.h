@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PUPROSE: Arduino library to help formatting for printing. 
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -11,7 +11,7 @@
 // 24 is a pretty safe minimum
 
 #ifndef PRINTBUFFERSIZE
-#define PRINTBUFFERSIZE 66
+#define PRINTBUFFERSIZE       66
 #endif
 
 // global buffer used by all functions so no static buffer in every function
@@ -78,6 +78,7 @@ char * print64(int64_t n, uint8_t base = 10)
   return buf;
 }
 
+
 char * print64(uint64_t n, uint8_t base = 10)
 {
   char * buf = __printbuffer;
@@ -115,6 +116,7 @@ char * print64(uint64_t n, uint8_t base = 10)
   }
   return buf;
 }
+
 
 ////////////////////////////////////////////////////////////
 //
@@ -223,15 +225,18 @@ char * scieng(double number, uint8_t digits, uint8_t em)
   return buf;
 }
 
+
 char * eng(double number, uint8_t digits)
 {
   return scieng(number, digits, 3);
 }
 
+
 char * sci(double number, uint8_t digits)
 {
   return scieng(number, digits, 1);
 }
+
 
 void sci(Stream &str, double f, uint8_t digits)
 {

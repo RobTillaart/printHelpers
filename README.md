@@ -1,7 +1,14 @@
 
+[![Arduino CI](https://github.com/RobTillaart/printHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/printHelpers/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/printHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/printHelpers/releases)
+
+
+
 # printHelpers
 
 Arduino library to help formatting data for printing
+
 
 ## Description
 
@@ -93,12 +100,13 @@ In practice a size of 22 will work for most applications.
 
 When functions are added, the recommended minimum size might increase.
 
+
 ## Future
 
-* Investigate the precision of **sci()** and **eng()**.
-* Investigate performance of **sci()** and **eng()**.
-* Add option to pass char buffer as parameter (improve threadsafe)
-* Add more print helpers. 
+- Investigate the precision of **sci()** and **eng()**.
+- Investigate performance of **sci()** and **eng()**.
+- Add option to pass char buffer as parameter (improve threadsafe)
+- Add more print helpers. 
 
 
 ## Operation
