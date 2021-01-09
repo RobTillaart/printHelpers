@@ -262,7 +262,11 @@ char * toBytes(double val, uint8_t decimals = 2)
   static char buf[12];
   char t[] = " KMGTPEZYXWVUtsrqponml";  
   uint8_t i = 0;
-  if (isinf(val)) return "<inf>";
+  if (isinf(val)) 
+  {
+    strcpy(buf, "<inf>");
+    return buf;
+  }
 
   while(val >= 1024)
   {
