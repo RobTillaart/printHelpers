@@ -196,7 +196,7 @@ char * scieng(double number, uint8_t digits, uint8_t em)
   double remainder = number - d;
 
   // print whole part
-  ltoa(d, &buf[pos], 10);
+  itoa(d, &buf[pos], 10);
   pos = strlen(buf);
 
   // print remainder part
