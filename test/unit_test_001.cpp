@@ -52,34 +52,50 @@ unittest(test_sci_eng)
 
   int32_t value32 = 1 << 25;
 
-  fprintf(stderr, "%ld\n", value32);
+  fprintf(stderr, "VALUE32 = %ld\n", value32);
+  fprintf(stderr, "%s\n", eng(PI * 1000, 6));
+  fprintf(stderr, "%s\n", sci(PI * 100, 6));
+  fprintf(stderr, "%s\n", eng(EULER * 10, 6));
+  fprintf(stderr, "%s\n", sci(EULER * 10000, 6));
+  fprintf(stderr, "%s\n", toBytes(12345678, 3));
 
   assertEqual(0, strcmp("0", eng(PI * 1000, 6)) );
   assertEqual(0, strcmp("0", sci(PI * 100, 6)) );
   assertEqual(0, strcmp("0", eng(EULER * 10, 6)) );
   assertEqual(0, strcmp("0", sci(EULER * 10000, 6)) );
-  
   assertEqual(0, strcmp("0", toBytes(12345678, 3)) );
 }
 
 
 unittest(test_print64)
 {
-  fprintf(stderr, "PRINTBUFFERSIZE: %s\n", PRINTBUFFERSIZE);
+  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
-  // int64_t value64 = 1ULL << 35;
+  int64_t value64 = 1ULL << 35;
 
-  // fprintf(stderr, "%ld\n", value64);
-  
-  // assertEqual(0, strcmp("0", print64(value64)) );
-  // assertEqual(0, strcmp("0", print64(value64, HEX)) );
+  fprintf(stderr, "%ld\n", value64);
 
-  // assertEqual(0, strcmp("0", eng(PI * 1000, 6)) );
-  // assertEqual(0, strcmp("0", sci(PI * 100, 6)) );
-  // assertEqual(0, strcmp("0", eng(EULER * 10, 6)) );
-  // assertEqual(0, strcmp("0", sci(EULER * 10000, 6)) );
-  
-  // assertEqual(0, strcmp("0", toBytes(12345678, 3)) );
+  fprintf(stderr, "%s\n", print64(value64));
+  fprintf(stderr, "%s\n", print64(value64, HEX));
+
+  assertEqual(0, strcmp("0", print64(value64)) );
+  assertEqual(0, strcmp("0", print64(value64, HEX)) );
+}
+
+
+unittest(test_toBytes)
+{
+  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+
+  for (int i = 0; i < 20; i++)
+  {
+    uint32_t = random(power(2, i));
+    fprintf(stderr, "%d\t%s\n", t, toBytes(t, 3));
+  }
+
+  fprintf(stderr, "%.3f\n", 12345678 / 1024.0 /1024.0);
+  assertEqual(0, strcmp("11.774 MB", toBytes(12345678, 3)) );
 }
 
 unittest_main()
