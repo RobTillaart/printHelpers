@@ -8,6 +8,10 @@
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
+#include "Arduino.h"
+#include "stdlib.h"
+
+
 // 24 is a pretty safe minimum
 
 #ifndef PRINTBUFFERSIZE
