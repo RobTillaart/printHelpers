@@ -90,7 +90,7 @@ unittest(test_toBytes)
 
   for (int i = 0; i < 20; i++)
   {
-    uint32_t = random(power(2, i));
+    uint32_t t = random(power(2, i));
     fprintf(stderr, "%d\t%s\n", t, toBytes(t, 3));
   }
 
