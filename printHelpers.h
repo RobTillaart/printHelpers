@@ -264,7 +264,7 @@ void sci(Stream &str, double f, uint8_t digits)
 char * toBytes(double val, uint8_t decimals = 2)
 {
   static char buf[12];
-  char t[] = " KMGTPEZYXWVUtsrqponml";  
+  char t[] = " KMGTPEZYXWVUtsrqponml";
   uint8_t i = 0;
   if (isinf(val)) 
   {
@@ -279,15 +279,26 @@ char * toBytes(double val, uint8_t decimals = 2)
   }
   if (i == 0) decimals = 0;
   if (decimals > 3) decimals = 3;
-  
-  #if defined(ARDUINO_ARCH_AVR)
-  uint8_t length = 7;
-  dtostrf(val, length, decimals, buf);
-  #else
-  sprintf(buf, "%.3f", val);
-  #endif
 
-  uint8_t pos = strlen(buf);
+  // WHOLE PART
+  int iv = val;
+  itoa(iv, &buf[0], 10);
+  
+  // DECIMALS
+  val -= v;
+  if (decimals > 0)
+  {
+    uint8_t pos = strlen(buf);
+    buf[pos++] = '.';
+    While (decimals-- > 0)
+    {
+      val = val * 10;
+      buf[pos++] = '0' + int(val);
+      val -= int(val);
+    }
+  }
+  
+  // UNITS
   if (i <= strlen(t))
   {
     if (i > 0) buf[pos++] = ' ';
