@@ -51,7 +51,7 @@ unittest(test_constructor)
 
   int64_t value64 = 1ULL << 35;
 
-  fprintf(stderr, %ld\n", value64);
+  fprintf(stderr, "%ld\n", value64);
   
   // assertEqual(0, strcmp("0", print64(value64)) );
   // assertEqual(0, strcmp("0", print64(value64, HEX)) );
