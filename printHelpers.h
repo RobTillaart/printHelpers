@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PUPROSE: Arduino library to help formatting for printing. 
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.1.3"))
+#define PRINTHELPERS_VERSION      (F("0.2.0"))
 
 // 24 is a pretty safe minimum
 
@@ -54,13 +54,25 @@ char * print64(int64_t n, uint8_t base = 10)
     buf[1] = 0;
     return buf;
   }
+
+  // PREFIX NEGATIVE
   // handle negative values (for all bases for now)
-  if (n < 0)
+  if ((n < 0) && (base != 16))
   {
     n = -n;
     buf[0] = '-';
     i++;
     j++;
+  }
+
+  // PREFIX HEX
+  if (base == 16)
+  {
+    buf[0] = '0';
+    buf[1] = 'x';
+    buf[2] = 0;
+    i = 2;
+    j = 2;
   }
   // create one digit per loop
   while (n > 0)

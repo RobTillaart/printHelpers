@@ -45,7 +45,26 @@ unittest_teardown()
 }
 
 
-unittest(test_sci_eng)
+unittest(test_sci)
+{
+  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
+
+  fprintf(stderr, "%s\n", sci(PI * 1000, 6));
+  fprintf(stderr, "%s\n", sci(PI * 100, 6));
+  fprintf(stderr, "%s\n", sci(PI * 10, 6));
+  fprintf(stderr, "\n");
+  fprintf(stderr, "%s\n", sci(EULER * 1000, 6));
+  fprintf(stderr, "%s\n", sci(EULER * 100, 6));
+  fprintf(stderr, "%s\n", sci(EULER * 10, 6));
+  fprintf(stderr, "\n");
+
+  assertEqual(0, strcmp("3.141593E+1", sci(PI * 10, 6)) );
+  assertEqual(0, strcmp("2.718282E+1", sci(EULER * 10, 6)) );
+}
+
+
+unittest(test_eng)
 {
   fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
   fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
@@ -54,16 +73,16 @@ unittest(test_sci_eng)
 
   fprintf(stderr, "VALUE32 = %ld\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
-  fprintf(stderr, "%s\n", sci(PI * 100, 6));
+  fprintf(stderr, "%s\n", eng(PI * 100, 6));
+  fprintf(stderr, "%s\n", eng(PI * 10, 6));
+  fprintf(stderr, "\n");
+  fprintf(stderr, "%s\n", eng(EULER * 1000, 6));
+  fprintf(stderr, "%s\n", eng(EULER * 100, 6));
   fprintf(stderr, "%s\n", eng(EULER * 10, 6));
-  fprintf(stderr, "%s\n", sci(EULER * 10000, 6));
-  fprintf(stderr, "%s\n", toBytes(12345678, 3));
+  fprintf(stderr, "\n");
 
-  assertEqual(0, strcmp("0", eng(PI * 1000, 6)) );
-  assertEqual(0, strcmp("0", sci(PI * 100, 6)) );
-  assertEqual(0, strcmp("0", eng(EULER * 10, 6)) );
-  assertEqual(0, strcmp("0", sci(EULER * 10000, 6)) );
-  assertEqual(0, strcmp("0", toBytes(12345678, 3)) );
+  assertEqual(0, strcmp("3.141593E+3", eng(PI * 1000, 6)) );
+  assertEqual(0, strcmp("27.182818E+0", eng(EULER * 10, 6)) );
 }
 
 
@@ -79,8 +98,8 @@ unittest(test_print64)
   fprintf(stderr, "%s\n", print64(value64));
   fprintf(stderr, "%s\n", print64(value64, HEX));
 
-  assertEqual(0, strcmp("0", print64(value64)) );
-  assertEqual(0, strcmp("0", print64(value64, HEX)) );
+  assertEqual(0, strcmp("34359738368", print64(value64)) );
+  assertEqual(0, strcmp("0x800000000", print64(value64, HEX)) );
 }
 
 
@@ -95,7 +114,7 @@ unittest(test_toBytes)
   }
 
   fprintf(stderr, "%.3f\n", 12345678 / 1024.0 /1024.0);
-  assertEqual(0, strcmp("11.774 MB", toBytes(12345678, 3)) );
+  assertEqual(0, strcmp("11.773 MB", toBytes(12345678, 3)) );
 }
 
 unittest_main()
