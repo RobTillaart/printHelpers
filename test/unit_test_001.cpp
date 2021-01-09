@@ -47,7 +47,8 @@ unittest_teardown()
 
 unittest(test_sci_eng)
 {
-  fprintf(stderr, "PRINTBUFFERSIZE: %s\n", PRINTBUFFERSIZE);
+  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
   int32_t value32 = 1 << 25;
 

@@ -12,6 +12,8 @@
 #include "stdlib.h"
 
 
+#define PRINTHELPERS_VERSION      (F("0.1.3"))
+
 // 24 is a pretty safe minimum
 
 #ifndef PRINTBUFFERSIZE
