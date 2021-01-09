@@ -45,13 +45,30 @@ unittest_teardown()
 }
 
 
-unittest(test_constructor)
+unittest(test_sci_eng)
 {
   fprintf(stderr, "PRINTBUFFERSIZE: %s\n", PRINTBUFFERSIZE);
 
-  int64_t value64 = 1ULL << 35;
+  int32_t value32 = 1ULL << 35;
 
-  fprintf(stderr, "%ld\n", value64);
+  fprintf(stderr, "%ld\n", value32);
+
+  assertEqual(0, strcmp("0", eng(PI * 1000, 6)) );
+  assertEqual(0, strcmp("0", sci(PI * 100, 6)) );
+  assertEqual(0, strcmp("0", eng(EULER * 10, 6)) );
+  assertEqual(0, strcmp("0", sci(EULER * 10000, 6)) );
+  
+  assertEqual(0, strcmp("0", toBytes(12345678, 3)) );
+}
+
+
+unittest(test_print64)
+{
+  fprintf(stderr, "PRINTBUFFERSIZE: %s\n", PRINTBUFFERSIZE);
+
+  // int64_t value64 = 1ULL << 35;
+
+  // fprintf(stderr, "%ld\n", value64);
   
   // assertEqual(0, strcmp("0", print64(value64)) );
   // assertEqual(0, strcmp("0", print64(value64, HEX)) );
