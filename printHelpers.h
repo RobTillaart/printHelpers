@@ -272,7 +272,12 @@ char * toBytes(double val, uint8_t decimals = 2)
   uint8_t length = 7;
   if (i == 0) decimals = 0;
   if (decimals > 3) decimals = 3;
+  
+  #if defined(__AVR__)
   dtostrf(val, length, decimals, buf);
+  #else
+  sprintf(buf, "%.3f", val);
+  #endif
 
   uint8_t pos = strlen(buf);
   if (i <= strlen(t))
