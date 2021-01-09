@@ -49,7 +49,7 @@ unittest(test_sci_eng)
 {
   fprintf(stderr, "PRINTBUFFERSIZE: %s\n", PRINTBUFFERSIZE);
 
-  int32_t value32 = 1ULL << 35;
+  int32_t value32 = 1 << 25;
 
   fprintf(stderr, "%ld\n", value32);
 
