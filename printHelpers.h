@@ -285,7 +285,7 @@ char * toBytes(double val, uint8_t decimals = 2)
   itoa(iv, &buf[0], 10);
   
   // DECIMALS
-  val -= v;
+  val -= iv;
   if (decimals > 0)
   {
     uint8_t pos = strlen(buf);
