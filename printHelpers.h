@@ -290,7 +290,7 @@ char * toBytes(double val, uint8_t decimals = 2)
   if (decimals > 0)
   {
     buf[pos++] = '.';
-    While (decimals-- > 0)
+    while (decimals-- > 0)
     {
       val = val * 10;
       buf[pos++] = '0' + int(val);
