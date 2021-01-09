@@ -286,9 +286,9 @@ char * toBytes(double val, uint8_t decimals = 2)
   
   // DECIMALS
   val -= iv;
+  uint8_t pos = strlen(buf);
   if (decimals > 0)
   {
-    uint8_t pos = strlen(buf);
     buf[pos++] = '.';
     While (decimals-- > 0)
     {
