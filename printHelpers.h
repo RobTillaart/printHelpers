@@ -280,7 +280,7 @@ char * toBytes(double val, uint8_t decimals = 2)
   if (i == 0) decimals = 0;
   if (decimals > 3) decimals = 3;
   
-  #if defined(__AVR__)
+  #if defined(ARDUINO_ARCH_AVR)
   uint8_t length = 7;
   dtostrf(val, length, decimals, buf);
   #else
