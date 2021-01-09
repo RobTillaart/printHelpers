@@ -26,11 +26,11 @@ void setup()
   Serial.println(E, 4);
   Serial.println("Cannot handle floats / doubles > MAXLONG\n");
 
+#if defined(ARDUINO_ARCH_AVR)
   Serial.print("dtostrf print:\t");
   Serial.println(dtostrf(E, 4, 4, buffer));
   Serial.println("Has no scientific notation\n");
 
-#if defined(ARDUINO_ARCH_AVR)
   Serial.print("dtostre print:\t");
   Serial.println(dtostre(E, buffer, 4, 0 ));
   Serial.print("dtostre print:\t");

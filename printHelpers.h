@@ -3,15 +3,21 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PUPROSE: Arduino library to help formatting for printing. 
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
+#include "Arduino.h"
+#include "stdlib.h"
+
+
+#define PRINTHELPERS_VERSION      (F("0.2.0"))
+
 // 24 is a pretty safe minimum
 
 #ifndef PRINTBUFFERSIZE
-#define PRINTBUFFERSIZE 66
+#define PRINTBUFFERSIZE       66
 #endif
 
 // global buffer used by all functions so no static buffer in every function
@@ -48,13 +54,25 @@ char * print64(int64_t n, uint8_t base = 10)
     buf[1] = 0;
     return buf;
   }
+
+  // PREFIX NEGATIVE
   // handle negative values (for all bases for now)
-  if (n < 0)
+  if ((n < 0) && (base != 16))
   {
     n = -n;
     buf[0] = '-';
     i++;
     j++;
+  }
+
+  // PREFIX HEX
+  if (base == 16)
+  {
+    buf[0] = '0';
+    buf[1] = 'x';
+    buf[2] = 0;
+    i = 2;
+    j = 2;
   }
   // create one digit per loop
   while (n > 0)
@@ -77,6 +95,7 @@ char * print64(int64_t n, uint8_t base = 10)
   }
   return buf;
 }
+
 
 char * print64(uint64_t n, uint8_t base = 10)
 {
@@ -115,6 +134,7 @@ char * print64(uint64_t n, uint8_t base = 10)
   }
   return buf;
 }
+
 
 ////////////////////////////////////////////////////////////
 //
@@ -190,7 +210,7 @@ char * scieng(double number, uint8_t digits, uint8_t em)
   double remainder = number - d;
 
   // print whole part
-  ltoa(d, &buf[pos], 10);
+  itoa(d, &buf[pos], 10);
   pos = strlen(buf);
 
   // print remainder part
@@ -223,15 +243,18 @@ char * scieng(double number, uint8_t digits, uint8_t em)
   return buf;
 }
 
+
 char * eng(double number, uint8_t digits)
 {
   return scieng(number, digits, 3);
 }
 
+
 char * sci(double number, uint8_t digits)
 {
   return scieng(number, digits, 1);
 }
+
 
 void sci(Stream &str, double f, uint8_t digits)
 {
@@ -255,21 +278,41 @@ void sci(Stream &str, double f, uint8_t digits)
 char * toBytes(double val, uint8_t decimals = 2)
 {
   static char buf[12];
-  char t[] = " KMGTPEZYXWVUtsrqponml";  
+  char t[] = " KMGTPEZYXWVUtsrqponml";
   uint8_t i = 0;
-  if (isinf(val)) return "<inf>";
+  if (isinf(val)) 
+  {
+    strcpy(buf, "<inf>");
+    return buf;
+  }
 
   while(val >= 1024)
   {
     val /= 1024;
     i++;
   }
-  uint8_t length = 7;
   if (i == 0) decimals = 0;
   if (decimals > 3) decimals = 3;
-  dtostrf(val, length, decimals, buf);
 
+  // WHOLE PART
+  int iv = val;
+  itoa(iv, &buf[0], 10);
+  
+  // DECIMALS
+  val -= iv;
   uint8_t pos = strlen(buf);
+  if (decimals > 0)
+  {
+    buf[pos++] = '.';
+    while (decimals-- > 0)
+    {
+      val = val * 10;
+      buf[pos++] = '0' + int(val);
+      val -= int(val);
+    }
+  }
+  
+  // UNITS
   if (i <= strlen(t))
   {
     if (i > 0) buf[pos++] = ' ';
