@@ -53,7 +53,6 @@ unittest(test_sci)
   fprintf(stderr, "%s\n", sci(PI * 1000, 6));
   fprintf(stderr, "%s\n", sci(PI * 100, 6));
   fprintf(stderr, "%s\n", sci(PI * 10, 6));
-  fprintf(stderr, "\n");
   fprintf(stderr, "%s\n", sci(EULER * 1000, 6));
   fprintf(stderr, "%s\n", sci(EULER * 100, 6));
   fprintf(stderr, "%s\n", sci(EULER * 10, 6));
@@ -69,13 +68,10 @@ unittest(test_eng)
   fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
   fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
-  int32_t value32 = 1 << 25;
-
   fprintf(stderr, "VALUE32 = %ld\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
   fprintf(stderr, "%s\n", eng(PI * 100, 6));
   fprintf(stderr, "%s\n", eng(PI * 10, 6));
-  fprintf(stderr, "\n");
   fprintf(stderr, "%s\n", eng(EULER * 1000, 6));
   fprintf(stderr, "%s\n", eng(EULER * 100, 6));
   fprintf(stderr, "%s\n", eng(EULER * 10, 6));
@@ -94,7 +90,6 @@ unittest(test_print64)
   int64_t value64 = 1ULL << 35;
 
   fprintf(stderr, "%ld\n", value64);
-
   fprintf(stderr, "%s\n", print64(value64));
   fprintf(stderr, "%s\n", print64(value64, HEX));
 
@@ -107,7 +102,7 @@ unittest(test_toBytes)
 {
   fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
 
-  for (int i = 0; i < 20; i++)
+  for (int i = 0; i < 30; i++)
   {
     uint32_t t = random(pow(2, i));
     fprintf(stderr, "%d\t%s\n", t, toBytes(t, 3));
