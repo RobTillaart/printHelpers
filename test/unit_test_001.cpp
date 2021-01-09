@@ -68,6 +68,8 @@ unittest(test_eng)
   fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
   fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
+  int32_t value32 = 1UL << 25;
+  
   fprintf(stderr, "VALUE32 = %ld\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
   fprintf(stderr, "%s\n", eng(PI * 100, 6));
