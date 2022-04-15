@@ -88,7 +88,7 @@ char * print64(int64_t value, uint8_t base)
 }
 
 
-char * print64(uint64_t value, uint8_t base = 10)
+char * print64(uint64_t value, uint8_t base)
 {
   char * buffer = __printbuffer;
   uint8_t i = 0;
