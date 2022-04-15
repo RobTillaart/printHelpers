@@ -1,24 +1,14 @@
-#pragma once
 //
-//    FILE: printHelpers.h
+//    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "Arduino.h"
-#include "stdlib.h"
+#include "printHelpers.h"
 
-
-#define PRINTHELPERS_VERSION      (F("0.2.3"))
-
-// 24 is a pretty safe minimum
-
-#ifndef PRINTBUFFERSIZE
-#define PRINTBUFFERSIZE       66
-#endif
 
 // global buffer used by all functions so no static buffer in every function
 // is needed ==> results need to be printed/copied asap
@@ -38,7 +28,7 @@ char __printbuffer[PRINTBUFFERSIZE];
 // buffer size 24 will work for base 8 -36
 // buffer size 22 will work for base 10 - 36
 
-char * print64(int64_t value, uint8_t base = 10)
+char * print64(int64_t value, uint8_t base)
 {
   char * buffer = __printbuffer;
   uint8_t i = 0;
@@ -277,7 +267,7 @@ void sci(Stream &str, double value, uint8_t decimals)
 //
 // To have some support the code uses lowercase for the next 8 levels
 // treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
-char * toBytes(double value, uint8_t decimals = 2)
+char * toBytes(double value, uint8_t decimals)
 {
   static char buffer[12];
   char  t[] = " KMGTPEZYXWVUtsrqponml";
