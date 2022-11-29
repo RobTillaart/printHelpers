@@ -45,6 +45,9 @@ void setup()
   Serial.print("\t");
   Serial.println(bin((uint32_t)f));
 
+  Serial.println(hex((uint64_t)a));
+  Serial.println(bin((uint64_t)a));
+
 
   Serial.println();
   Serial.println("10 random() HEX values");
