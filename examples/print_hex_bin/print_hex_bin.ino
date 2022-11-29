@@ -15,6 +15,38 @@ void setup()
   Serial.println(__FILE__);
 
   Serial.println();
+  uint8_t  a = 111;
+  int8_t   b = 112;
+  uint16_t c = 113;
+  int16_t  d = 114;
+  uint32_t e = 113;
+  int32_t  f = 114;
+  Serial.print(hex(a));
+  Serial.print("\t");
+  Serial.println(bin(a));
+
+  Serial.print(hex((uint8_t)b));
+  Serial.print("\t");
+  Serial.println(bin((uint8_t)b));
+
+  Serial.print(hex(c));
+  Serial.print("\t");
+  Serial.println(bin(c));
+
+  Serial.print(hex((uint16_t)d));
+  Serial.print("\t");
+  Serial.println(bin((uint16_t)d));
+
+  Serial.print(hex(e));
+  Serial.print("\t");
+  Serial.println(bin(e));
+
+  Serial.print(hex((uint32_t)f));
+  Serial.print("\t");
+  Serial.println(bin((uint32_t)f));
+
+
+  Serial.println();
   Serial.println("10 random() HEX values");
   for (uint8_t i = 0; i < 10; i++)
   {
@@ -26,6 +58,10 @@ void setup()
     Serial.println(n, HEX);
   }
   Serial.println();
+
+
+
+
 
   Serial.println("10 random() BIN values");
   for (uint8_t i = 0; i < 10; i++)

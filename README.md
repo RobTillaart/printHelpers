@@ -102,15 +102,18 @@ To solve this the following functions are added that will generate a
 constant length char array. 
  
 - **char \* hex(uint64_t value, uint8_t digits = 16)**
-- **char \* hex(uint32_t value, uint8_t digits = 8)**  
+- **char \* hex(uint32_t value, uint8_t digits = 8)**
+- **char \* hex(uint16_t value, uint8_t digits = 4)**
+- **char \* hex(uint8_t value, uint8_t digits = 2)**
 - **char \* bin(uint64_t value, uint8_t digits = 64)**
 - **char \* bin(uint32_t value, uint8_t digits = 32)**
+- **char \* bin(uint16_t value, uint8_t digits = 16)**
+- **char \* bin(uint8_t value, uint8_t digits = 8)**
 
-Note: Data types smaller than 4 bytes will use the 32 bit version.
-(to be tested)
+Note: Data types not supported, must be cast to an supported type.
 
-Note: There is overlap with **print64(value, HEX)** but the latter
-does not produce the leading zero's.
+Note: There is overlap between **hex(value)** and **print64(value, HEX)**. 
+The latter does not produce the leading zero's or fixed length output.
 
 ----
 

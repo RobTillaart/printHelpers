@@ -342,7 +342,6 @@ char * hex(uint64_t value, uint8_t digits)
   return buffer;
 }
 
-
 char * hex(uint32_t value, uint8_t digits)
 {
   uint32_t val = value;
@@ -358,6 +357,8 @@ char * hex(uint32_t value, uint8_t digits)
   return buffer;
 }
 
+char * hex(uint16_t value, uint8_t digits) { return hex(uint32_t) value, digits);};
+char * hex(uint8_t value, uint8_t digits)  { return hex(uint32_t) value, digits);}; 
 
 char * bin(uint64_t value, uint8_t digits)
 {
@@ -387,6 +388,9 @@ char * bin(uint32_t value, uint8_t digits)
   }
   return buffer;
 }
+
+char * bin(uint16_t value, uint8_t digits) { return bin(uint32_t) value, digits);};
+char * bin(uint8_t value, uint8_t digits)  { return bin(uint32_t) value, digits);}; 
 
 
 //  -- END OF FILE --
