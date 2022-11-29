@@ -18,7 +18,7 @@ void setup()
   Serial.println("10 random() HEX values");
   for (uint8_t i = 0; i < 10; i++)
   {
-    n = 2 * random() + random(2);  //  0 .. 2^32-1
+    n = 2 * random(2000000000) + random(2);  //  0 .. 2^32-1
     Serial.print(n);
     Serial.print('\t');
     Serial.print(hex(n));
@@ -30,7 +30,7 @@ void setup()
   Serial.println("10 random() BIN values");
   for (uint8_t i = 0; i < 10; i++)
   {
-    n = 2 * random() + random(2);  //  0 .. 2^32-1
+    n = 2 * random(2000000000) + random(2);  //  0 .. 2^32-1
     Serial.print(n);
     Serial.print('\t');
     Serial.print(bin(n));
