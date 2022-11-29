@@ -132,7 +132,7 @@ unittest(test_bin)
     fprintf(stderr, "%d\t%s\n", t, bin(t));
     assertEqual(32, strlen(bin(t)) );
   }
-  assertEqual(32, strlen(hex((uint32_t)197493099)) );
+  assertEqual(32, strlen(bin((uint32_t)197493099)) );
   assertEqual(0, strcmp("00001011110001011000000101101011", bin((uint32_t)197493099)) );
 }
 
