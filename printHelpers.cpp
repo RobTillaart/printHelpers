@@ -323,10 +323,9 @@ char * toBytes(double value, uint8_t decimals)
 
 ////////////////////////////////////////////////////////////
 //
-//  HEX  BIN
+//  HEX
 //
 //  always leading zero's - no prefix - no separator
-
 char * hex(uint64_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -357,8 +356,15 @@ char * hex(uint32_t value, uint8_t digits)
   return buffer;
 }
 
-char * hex(uint16_t value, uint8_t digits) { return hex(uint32_t) value, digits);};
-char * hex(uint8_t value, uint8_t digits)  { return hex(uint32_t) value, digits);}; 
+char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
+char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); }; 
+
+
+////////////////////////////////////////////////////////////
+//
+//  BIN
+//
+//  always leading zero's - no prefix - no separator
 
 char * bin(uint64_t value, uint8_t digits)
 {
@@ -374,7 +380,6 @@ char * bin(uint64_t value, uint8_t digits)
   return buffer;
 }
 
-
 char * bin(uint32_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -389,8 +394,8 @@ char * bin(uint32_t value, uint8_t digits)
   return buffer;
 }
 
-char * bin(uint16_t value, uint8_t digits) { return bin(uint32_t) value, digits);};
-char * bin(uint8_t value, uint8_t digits)  { return bin(uint32_t) value, digits);}; 
+char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
+char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); }; 
 
 
 //  -- END OF FILE --

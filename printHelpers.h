@@ -81,12 +81,18 @@ char * toBytes(double value, uint8_t decimals = 2);
 //  HEX  BIN
 //
 //  always leading zero's - no prefix - no separator
-//  smaller types will use 32 bit version
+//  cast if needed.
 char * hex(uint64_t value, uint8_t digits = 16);
 char * hex(uint32_t value, uint8_t digits = 8);  
 char * hex(uint16_t value, uint8_t digits = 4);  
 char * hex(uint8_t value, uint8_t digits = 2);  
 
+////////////////////////////////////////////////////////////
+//
+//  HEX  BIN
+//
+//  always leading zero's - no prefix - no separator
+//  cast if needed.
 char * bin(uint64_t value, uint8_t digits = 64);
 char * bin(uint32_t value, uint8_t digits = 32);
 char * bin(uint16_t value, uint8_t digits = 16);
