@@ -119,8 +119,8 @@ unittest(test_hex)
     uint32_t t = random(pow(2, i));
     fprintf(stderr, "%d\t%s\n", t, hex(t));
   }
-  assertEqual(8, strlen(hex(33615)) );
-  assertEqual(0, strcmp("0000834F", hex(33615)) );
+  assertEqual(8, strlen(hex((uint32_t)33615)) );
+  assertEqual(0, strcmp("0000834F", hex((uint32_t)33615)) );
 }
 
 
@@ -132,8 +132,8 @@ unittest(test_bin)
     fprintf(stderr, "%d\t%s\n", t, bin(t));
     assertEqual(32, strlen(bin(t)) );
   }
-  assertEqual(32, strlen(hex(197493099)) );
-  assertEqual(0, strcmp("00001011110001011000000101101011", bin(197493099)) );
+  assertEqual(32, strlen(hex((uint32_t)197493099)) );
+  assertEqual(0, strcmp("00001011110001011000000101101011", bin((uint32_t)197493099)) );
 }
 
 unittest_main()
