@@ -16,19 +16,34 @@ Arduino library to help formatting data for printing.
 The printHelpers library contains a number of functions that help to print 
 data in a way not possible in the standard print library of the Arduino.
 
+- **print64()** print **uint64_t** and **int64_t** 
+- **sci()** generates in scientific format - exponent has step 1.
+- **eng()** generates in engineering format - exponent has step 3.
+- **scieng()** generated exponential format - exponent has step 1 to 9.
+- **toBytes()** generates KB MB GB etc.
+- **hex()** generates hexadecimal output with leading zeros up to **uint64_t**.
+- **bin()** generates binary output with leading zeros up to **uint64_t**.
+
+Details, see below.
+
 
 #### thread safety
 
-Note the functions of this library all share an internal buffer, so the 
-library is not thread safe. Therefore one should copy / print the data 
-(returned pointer) as fast as possible.
+Note the functions of this library all share an internal buffer, so the library is 
+definitely **not** thread safe. 
+Therefore one should copy / print the data (returned pointer) as fast as possible.
 
 Thread-safe versions of these print functions might be made in the future.
 
 
 ## Interface
 
+```cpp
+#include "printHelpers.h"
+```
+
 The following functions are implemented:
+
 
 #### print64()
 
@@ -44,22 +59,27 @@ int number to a char array.
 No sign is printed, neither are leading zero's. 
 Base 10 (DEC) and 16 (HEX) are supported and bases up to 36 can be used.
 
+
 #### sci() eng() 
 
 - **char \* sci(double value, uint8_t decimals)** converts a float or double to a 
 char array. 
-E.g. print(sci(f, 4)) ==> results in "6.7407E+21".
+E.g. **print(sci(f, 4))** ==> results in "6.7407E+21".
 The existing Arduino print library only supports printing of floats and
 doubles up to about 4E9 while the range of floats goes up to ~1E38. 
 The smallest float values will often be printed as 0.00 while floats 
-support down to about 1E-38 (subnormal even to 1E-45). 
-Existing library functions **dtostrf()** has no scientific notation 
-and **dtostre()** (AVR) is limited to 7 decimals.
+support down to about 1E-38 (subnormal even to 1E-45).
+Existing (AVR) library functions **dtostrf()** has no scientific notation 
+and **dtostre()** is limited to 7 decimals. These latter two are faster.
+Values printed with **sci()** do look pretty in column output.
 
 - **char \* eng(double value, uint8_t decimals)** converts a float or double to a 
 char array. 
 E.g. print(eng(f, 4)) ==> results in "6.7407E+21".
 Note the exponent created by **eng()** is always a multiple of 3.
+Values printed with **eng()** do not always look pretty in column output.
+This is due to the exponent power of 3. However its output translates easy to
+thousands, millions etc which are powers of 3.
 
 - **char \* scieng(double value, uint8_t decimals, uint8_t exponentMultiple)** converts a 
 float or double to a char array. 
@@ -72,6 +92,7 @@ The **scieng()** function works for multiples from 1..9 for the exponent.
 The usability of other values than 1 and 3 are not known.
 Personally I like the multiple of 2 as I get 2 orders of magnitude in the
 mantissa.
+
 
 #### toBytes()
 
@@ -86,11 +107,12 @@ List of prefixes:
 - peta exa zetta yotta (1024\^8)
 - xona weka vunda uda (1024\^12)  
 treda Byte == TDB uses 2 chars to indicate the magnitude so that would 
-take extra memory of more complex code.  
+take extra memory or more complex code.  
 As it is seldom used, "official" support stops with UDA. 
 Should be big enough for some time.  
 To have some support the code uses lowercase for the next 8 levels:  
 treda sorta rinta quexa pepta ocha nena minga luma (1024\^21 ~~ 10\^63)
+
 
 #### hex() bin()
 
@@ -156,16 +178,20 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - check TODO's in the code
 
-#### should
+#### Should
+
 - Add distant print helpers.
   - feet(float cm) as 3'2" or  3-7/8 feet
   - inch(float cm) as 3'2" or  3-7/8 feet
-  - yards(), miles()
+  - yards(float meter), 
+  - miles(float kilometer)
 
-#### could
+#### Could
+
 - Investigate the precision of **sci()** and **eng()**.
 - Investigate performance of **sci()** and **eng()**.
 - Investigate performance (local variables instead of modifying parameters)
@@ -173,13 +199,17 @@ See examples.
   - pass char buffer as parameter (breaking)
 - improve readability of the code
 - investigate separators in bin() and hex()
+  - point or space, per 4 or per 2 
+  - shared printbuffer too small for bin()
 - investigate sci() version based upon use of log()
   - performance
   - accuracy
+- make table for toBytes() values KB, MB etc. (21 entries)
 
-#### wont
+#### Wont (only upon request)
+
 - add **float()** as Arduino limits floats to "MAXLONG" by code.
-  - use dtostrf() - is that portable
+  - use dtostrf() - is that portable?
   - use sci() or eng()
 - add base(value, digits, base) for any base > 1.
   - only upon request.

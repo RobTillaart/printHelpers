@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -136,6 +137,8 @@ unittest(test_bin)
   assertEqual(0, strcmp("00001011110001011000000101101011", bin((uint32_t)197493099)) );
 }
 
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

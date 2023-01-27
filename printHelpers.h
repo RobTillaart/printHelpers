@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.3.0"))
+#define PRINTHELPERS_VERSION      (F("0.3.1"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -20,6 +20,7 @@
 //  not usable in multi-threading environments (use with care)
 //
 //  24 is a pretty safe minimum
+//
 #ifndef PRINTBUFFERSIZE
 #define PRINTBUFFERSIZE       66
 #endif
@@ -52,9 +53,9 @@ char * print64(uint64_t value, uint8_t base = 10);
 //  em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em);
 
-char * eng(double value, uint8_t decimals);
+char * eng(double value, uint8_t decimals);  //  em == 3
 
-char * sci(double value, uint8_t decimals);
+char * sci(double value, uint8_t decimals);  //  em == 1
 
 void sci(Stream &str, double value, uint8_t decimals);
 
@@ -83,9 +84,9 @@ char * toBytes(double value, uint8_t decimals = 2);
 //  always leading zero's - no prefix - no separator
 //  cast if needed.
 char * hex(uint64_t value, uint8_t digits = 16);
-char * hex(uint32_t value, uint8_t digits = 8);  
-char * hex(uint16_t value, uint8_t digits = 4);  
-char * hex(uint8_t value, uint8_t digits = 2);  
+char * hex(uint32_t value, uint8_t digits = 8);
+char * hex(uint16_t value, uint8_t digits = 4);
+char * hex(uint8_t value, uint8_t digits = 2);
 
 ////////////////////////////////////////////////////////////
 //
