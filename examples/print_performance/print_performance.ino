@@ -72,6 +72,8 @@ void setup()
   Serial.println(stop - start);
   Serial.println(b);
 
+
+#if defined(__AVR__)
   Serial.println();
   Serial.println("dtostrf");
   delay(100);
@@ -100,6 +102,8 @@ void setup()
   Serial.println(stop - start);
   Serial.println(buffer);
   delay(100);
+#endif
+
 
   Serial.println();
   Serial.println("toBytes");

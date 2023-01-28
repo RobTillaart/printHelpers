@@ -204,7 +204,12 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   double remainder = value - d;
 
   //  print whole part
+#if defined(ESP32)
+  //  ESP32 does not support %ld  or ltoa()
+  itoa(d, &buffer[pos], 10);
+#else
   sprintf(&buffer[pos], "%ld", d);
+#endif
   pos = strlen(buffer);
 
   //  print remainder part
