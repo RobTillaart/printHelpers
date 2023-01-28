@@ -99,7 +99,7 @@ mantissa.
 - **char \* toBytes(double value, uint8_t decimals = 2)** makes from a big number 
 representing an amount of bytes a shorter string usable for displaying.
 The number of decimals is max 3
-    Example  3.292.528 ==> "3.140MB" 
+    Example  3.292.528 ==> "3.140 MB" 
 Value ranges supported are in steps of powers of 1024. 
 These will all be shown in UPPERCASE so KB, MB etc.  
 List of prefixes:
@@ -116,9 +116,10 @@ treda sorta rinta quexa pepta ocha nena minga luma (1024\^21 ~~ 10\^63)
 
 #### hex() bin()
 
-The default print() function of Arduino does not have leading zero's
-for HEX and BIN. This often causes a "broken" layout especially if one
-wants to print in columns or so.
+The default print() function of Arduino does not have leading zero's 
+for **HEX** and **BIN**. 
+This often causes a "broken" layout especially if one wants to print 
+in columns or so.
 
 To solve this the following functions are added that will generate a 
 constant length char array. 
@@ -154,9 +155,9 @@ to become more thread safe.
 The size of this shared buffer is default 66 to be able to print a 64 bit 
 integer in base 2. 
 To save memory one can change this buffer size in the code or compile time 
-by changing **PRINTBUFFERSIZE**.
+by changing **PRINTBUFFERSIZE** in printHelpers.h.
 Be aware that  **sci()** and **eng()** use the same buffer. 
-These need about 10 bytes plus one bytes for every decimal used.
+These functions need about 10 bytes plus one bytes for every decimal used.
 So for floats one need 15-20 bytes max, for doubles one need up to 30 bytes max.
 In practice a size of 22 will work for most applications.
 
@@ -184,39 +185,37 @@ See examples.
 
 #### Should
 
-- Add distance print helpers.
-  - feet(float cm) as 3'2" or  3-7/8 feet
-  - inch(float cm) as 3'2" or  3-7/8 feet
-  - yards(float meter), 
-  - miles(float kilometer)
+- documentation
+  - table for toBytes() - values KB, MB etc. (21 entries  3 x 7 ?) range etc.
+- improve readability of the code
+
 
 #### Could
 
-- Investigate the precision of **sci()** and **eng()**.
-- Investigate performance of **sci()** and **eng()**.
-- Investigate performance (local variables instead of modifying parameters)
-- investigate sci() version based upon use of log()
-  - performance
-  - accuracy
-- Investigate thread safe version
+- investigate thread safe version
   - pass char buffer as parameter (breaking)
   - could be the log10 pow version?
-- improve readability of the code
-- documentation
-  - table for toBytes() - values KB, MB etc. (21 entries  3 x 7 ?) range etc
-- implement **toRoman()**
-- investigate separators in hex()
+- investigate **toRoman()**
+- investigate separators in **hex()**
   - space per 8, 4 or 2
+- investigate distance print helpers.
+  - feet(float cm) as 3'2" or  3-7/8 feet
+  - inch(float cm) as 32" 
+  - yards(float meter), 
+  - miles(float kilometre)
 
 
-#### Wont (only upon request)
+#### Wont
 
 - add **float()** as Arduino limits floats to "MAXLONG" by code.
   - use dtostrf() - is that portable?
   - use sci() or eng()
-- add base(value, digits, base) for any base > 1.
+- add **base(value, digits, base)** for any base > 1.
   - only upon request.
-- investigate separators in bin()
+- investigate separators in **bin()**
   - point or space, per 8 or 4 or 2
-  - ==> printbuffer too small for bin(64) need ~100 bytes.
-
+  - ==> printBuffer too small for bin(64) ==> need 75-100 bytes.
+- Investigate performance and accuracy 
+  - **sci()** and **eng()**.
+  - investigate sci() version based upon use of log()
+  - done => see examples.
