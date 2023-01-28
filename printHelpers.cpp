@@ -204,7 +204,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   double remainder = value - d;
 
   //  print whole part
-  ltoa(d, &buffer[pos], 10);
+  sprintf(&buffer[pos], "%ld", d);
   pos = strlen(buffer);
 
   //  print remainder part

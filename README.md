@@ -184,7 +184,7 @@ See examples.
 
 #### Should
 
-- Add distant print helpers.
+- Add distance print helpers.
   - feet(float cm) as 3'2" or  3-7/8 feet
   - inch(float cm) as 3'2" or  3-7/8 feet
   - yards(float meter), 
@@ -195,16 +195,19 @@ See examples.
 - Investigate the precision of **sci()** and **eng()**.
 - Investigate performance of **sci()** and **eng()**.
 - Investigate performance (local variables instead of modifying parameters)
-- Investigate thread safe version
-  - pass char buffer as parameter (breaking)
-- improve readability of the code
-- investigate separators in bin() and hex()
-  - point or space, per 4 or per 2 
-  - shared printbuffer too small for bin()
 - investigate sci() version based upon use of log()
   - performance
   - accuracy
-- make table for toBytes() values KB, MB etc. (21 entries)
+- Investigate thread safe version
+  - pass char buffer as parameter (breaking)
+  - could be the log10 pow version?
+- improve readability of the code
+- documentation
+  - table for toBytes() - values KB, MB etc. (21 entries  3 x 7 ?) range etc
+- implement **toRoman()**
+- investigate separators in hex()
+  - space per 8, 4 or 2
+
 
 #### Wont (only upon request)
 
@@ -213,4 +216,7 @@ See examples.
   - use sci() or eng()
 - add base(value, digits, base) for any base > 1.
   - only upon request.
+- investigate separators in bin()
+  - point or space, per 8 or 4 or 2
+  - ==> printbuffer too small for bin(64) need ~100 bytes.
 
