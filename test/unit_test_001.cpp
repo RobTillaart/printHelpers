@@ -140,29 +140,29 @@ unittest(test_bin)
 
 unittest(test_toRoman_standard)
 {
-  assertEqual("I", strlen(toRoman(1)) );
-  assertEqual("II", strlen(toRoman(2)) );
-  assertEqual("III", strlen(toRoman(3)) );
-  assertEqual("VIII", strlen(toRoman(8)) );
-  assertEqual("XVIII", strlen(toRoman(18)) );
-  assertEqual("XXVIII", strlen(toRoman(28)) );
-  assertEqual("XXXVIII", strlen(toRoman(38)) );
-  assertEqual("LXXXVIII", strlen(toRoman(88)) );
-  assertEqual("CLXXXVIII", strlen(toRoman(188)) );
-  assertEqual("CCLXXXVIII", strlen(toRoman(288)) );
-  assertEqual("CCCLXXXVIII", strlen(toRoman(388)) );
-  assertEqual("DCCCLXXXVIII", strlen(toRoman(888)) );
-  assertEqual("MDCCCLXXXVIII", strlen(toRoman(1888)) );
-  assertEqual("MMDCCCLXXXVIII", strlen(toRoman(2888)) );
-  assertEqual("MMMDCCCLXXXVIII", strlen(toRoman(3888)) );
-  assertEqual("MMMMDCCCLXXXVIII", strlen(toRoman(4888)) );
+  assertEqual(0, strcmp("I", toRoman(1)) );
+  assertEqual(0, strcmp("II", toRoman(2)) );
+  assertEqual(0, strcmp("III", toRoman(3)) );
+  assertEqual(0, strcmp("VIII", toRoman(8)) );
+  assertEqual(0, strcmp("XVIII", toRoman(18)) );
+  assertEqual(0, strcmp("XXVIII", toRoman(28)) );
+  assertEqual(0, strcmp("XXXVIII", toRoman(38)) );
+  assertEqual(0, strcmp("LXXXVIII", toRoman(88)) );
+  assertEqual(0, strcmp("CLXXXVIII", toRoman(188)) );
+  assertEqual(0, strcmp("CCLXXXVIII", toRoman(288)) );
+  assertEqual(0, strcmp("CCCLXXXVIII", toRoman(388)) );
+  assertEqual(0, strcmp("DCCCLXXXVIII", toRoman(888)) );
+  assertEqual(0, strcmp("MDCCCLXXXVIII", toRoman(1888)) );
+  assertEqual(0, strcmp("MMDCCCLXXXVIII", toRoman(2888)) );
+  assertEqual(0, strcmp("MMMDCCCLXXXVIII", toRoman(3888)) );
+  assertEqual(0, strcmp("MMMMDCCCLXXXVIII", toRoman(4888)) );
 }
 
 
 unittest(test_toRoman_extended)
 {
-  assertEqual("N", strlen(toRoman(0)) );
-  assertEqual("OVF", strlen(toRoman(100000001UL)) );
+  assertEqual(0, strcmp("N", toRoman(0)) );
+  assertEqual(0, strcmp("OVF", toRoman(100000001UL)) );
 }
 
 

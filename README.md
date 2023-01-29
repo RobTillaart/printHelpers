@@ -23,11 +23,12 @@ data in a way not possible in the standard print library of the Arduino.
 - **toBytes()** generates KB MB GB etc.
 - **hex()** generates hexadecimal output with leading zeros up to **uint64_t**.
 - **bin()** generates binary output with leading zeros up to **uint64_t**.
+- **toRoman()** generates a ROMAN representation of a (positive) number.
 
 Details, see below.
 
 
-#### thread safety
+#### Thread safety
 
 Note the functions of this library all share an internal buffer, so the library is 
 definitely **not** thread safe. 
@@ -85,7 +86,7 @@ thousands, millions etc which are powers of 3.
 float or double to a char array. 
 **sci()** and **eng()** use the same underlying function called **scieng()** 
 as the initial code for converting was almost identical.
-Although not intended to be used directly, one can use it. 
+Although not intended to be used directly, one may use it. 
 The last parameter **exponentMultiple** defines where the exponent is a multiple of.
 For the **sci()** function this is 1, for the **eng()** function this is 3.
 The **scieng()** function works for multiples from 1..9 for the exponent.
@@ -114,7 +115,7 @@ These will all be shown in UPPERCASE so KB, MB etc.
 |  exabytes   |    EB     |  1024^6  |  udabytes    |    EB     |  1024^12 |
 
 
-Treda Byte is "TDB" and uses 2 chars to indicate the magnitude. 
+Treda Byte is shortened as "TDB" and uses 2 chars to indicate the magnitude. 
 That would take extra memory or slightly more complex code.  
 As it is very seldom used, "official" support stops with UDA. 
 Should be big enough for some time.
@@ -189,7 +190,7 @@ Notes:
   although IV would be (more?) correct and therefore IV is used.
 
 
-## Shared buffer
+## Shared print buffer
 
 The implementation of the function all use a shared buffer to hold the 
 generated string. 
@@ -218,16 +219,12 @@ In practice a size of 22 will work for most applications.
 When functions are added, the recommended minimum size might increase.
 
 
-## Operation
-
-See examples.
-
-
 ## Future
 
 #### Must
 
 - check TODO's in the code
+
 
 #### Should
 

@@ -42,6 +42,7 @@ void setup()
   }
   stop = micros();
   Serial.println((stop - start) / 5000.0);
+  Serial.println(b);
   delay(1000);
 
   Serial.println("\ndone...");
