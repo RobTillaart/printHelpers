@@ -148,10 +148,19 @@ void setup()
   delay(100);
 
 
-
-
-
-
+  Serial.println();
+  Serial.println("toRoman");
+  delay(100);
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    b = toRoman(i);
+  }
+  stop = micros();
+  Serial.print("TIME: ");
+  Serial.println(stop - start);
+  Serial.println(b);
+  delay(100);
 
   Serial.println();
   Serial.println("done...");

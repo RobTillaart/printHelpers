@@ -72,7 +72,7 @@ unittest(test_sci)
 unittest(test_eng)
 {
   int32_t value32 = 1UL << 25;
-  
+
   fprintf(stderr, "VALUE32 = %d\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
   fprintf(stderr, "%s\n", eng(PI * 100, 6));
@@ -135,6 +135,34 @@ unittest(test_bin)
   }
   assertEqual(32, strlen(bin((uint32_t)197493099)) );
   assertEqual(0, strcmp("00001011110001011000000101101011", bin((uint32_t)197493099)) );
+}
+
+
+unittest(test_toRoman_standard)
+{
+  assertEqual("I", strlen(toRoman(1)) );
+  assertEqual("II", strlen(toRoman(2)) );
+  assertEqual("III", strlen(toRoman(3)) );
+  assertEqual("VIII", strlen(toRoman(8)) );
+  assertEqual("XVIII", strlen(toRoman(18)) );
+  assertEqual("XXVIII", strlen(toRoman(28)) );
+  assertEqual("XXXVIII", strlen(toRoman(38)) );
+  assertEqual("LXXXVIII", strlen(toRoman(88)) );
+  assertEqual("CLXXXVIII", strlen(toRoman(188)) );
+  assertEqual("CCLXXXVIII", strlen(toRoman(288)) );
+  assertEqual("CCCLXXXVIII", strlen(toRoman(388)) );
+  assertEqual("DCCCLXXXVIII", strlen(toRoman(888)) );
+  assertEqual("MDCCCLXXXVIII", strlen(toRoman(1888)) );
+  assertEqual("MMDCCCLXXXVIII", strlen(toRoman(2888)) );
+  assertEqual("MMMDCCCLXXXVIII", strlen(toRoman(3888)) );
+  assertEqual("MMMMDCCCLXXXVIII", strlen(toRoman(4888)) );
+}
+
+
+unittest(test_toRoman_extended)
+{
+  assertEqual("N", strlen(toRoman(0)) );
+  assertEqual("OVF", strlen(toRoman(100000001UL)) );
 }
 
 
