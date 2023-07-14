@@ -499,7 +499,13 @@ char * printInch(float inch, uint16_t step)
     num >>= 1;
     den >>= 1;
   }
+  
+#if defined(ESP32)
+  //  ESP32 does not support %ld  or ltoa()
+  sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
   sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
   return buffer;
 }
 
@@ -514,7 +520,13 @@ char * printFeet(float feet)
     ft++;
     inch = 0;
   }
-  sprintf(buffer, "%ld\"%d\'", ft, inch);
+#if defined(ESP32)
+  //  ESP32 does not support %ld  or ltoa()
+  sprintf(buffer, "%d\"%d\'", ft, inch);
+#else
+  sprintf(buffer, "%d\"%d\'", ft, inch);
+#endif
+  sprintf(buffer, "%d\"%d\'", ft, inch);
   return buffer;
 }
 
