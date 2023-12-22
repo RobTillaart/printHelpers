@@ -2,13 +2,11 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 //    DATE: 2023-12-20
-// PURPOSE: readability
+// PURPOSE: demo readability
 //     URL: https://github.com/RobTillaart/printHelpers
 
 #include "Arduino.h"
 #include "printHelpers.h"
-
-uint32_t start, stop;
 
 void setup()
 {
