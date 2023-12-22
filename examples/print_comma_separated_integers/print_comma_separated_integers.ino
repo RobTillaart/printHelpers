@@ -18,16 +18,16 @@ void setup()
   Serial.print("PRINTHELPERS_VERSION: ");
   Serial.println(PRINTHELPERS_VERSION);
 
-  Serial.println(123456789);
-  Serial.println(csi(123456789));
-  Serial.println(csi(-123456789));
-  Serial.println(csi(12345678));
-  Serial.println(csi(1234567));
-  Serial.println(csi(-12345));
-  Serial.println(csi(1234));
-  Serial.println(csi(123));
-  Serial.println(csi(12));
-  Serial.println(csi(-1));
+  Serial.println((int32_t)123456789);
+  Serial.println(csi((int32_t)123456789));
+  Serial.println(csi((int32_t)-123456789));
+  Serial.println(csi((int32_t)12345678));
+  Serial.println(csi((uint32_t)1234567));
+  Serial.println(csi((int16_t)-12345));
+  Serial.println(csi((int16_t)1234));
+  Serial.println(csi((uint8_t)123));
+  Serial.println(csi((int8_t)12));
+  Serial.println(csi((int32_t)-1));
 
   int64_t big = 123456789012345678;
   Serial.println(csi(big));
