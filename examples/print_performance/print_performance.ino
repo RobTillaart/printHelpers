@@ -194,6 +194,25 @@ void setup()
 
   Serial.println();
   Serial.println("done...");
+
+
+  Serial.println();
+  Serial.println("CSI");
+  volatile uint64_t big = 1234567890987654321;
+  delay(100);
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    b = csi(big);
+  }
+  stop = micros();
+  Serial.print("TIME: ");
+  Serial.println(stop - start);
+  Serial.println(b);
+  delay(100);
+
+  Serial.println();
+  Serial.println("done...");
 }
 
 

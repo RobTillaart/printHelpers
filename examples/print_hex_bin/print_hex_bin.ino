@@ -13,6 +13,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("PRINTHELPERS_VERSION: ");
+  Serial.println(PRINTHELPERS_VERSION);
 
   Serial.println();
   uint8_t  a = 111;
