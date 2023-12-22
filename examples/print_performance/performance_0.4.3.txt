@@ -3,7 +3,9 @@ Arduino UNO
 IDE 1.8.19
 
 print_performance.ino
-PRINTHELPERS_VERSION: 0.4.1
+D:\Rob\WORK\Arduino\libraries\printHelpers\examples\print_performance\print_performance.ino
+PRINTHELPERS_VERSION: 0.4.3
+
 4
 4
 
@@ -18,7 +20,7 @@ TIME: 22476
 660375892052148224
 
 SCI
-TIME: 9232
+TIME: 9236
 6.603759288787841E+17
 
 ENG
@@ -34,11 +36,11 @@ TIME: 1452
 6.6037589e+17
 
 toBytes
-TIME: 1980
+TIME: 1976
 586.531 PB
 
 hex
-TIME: 1304
+TIME: 1308
 092A206000000000
 
 bin
@@ -50,11 +52,16 @@ TIME: 89352
 CMXCIX
 
 printInch
-TIME: 177308
+TIME: 177312
 999 0/16
 
 printFeet
 TIME: 137448
 999"0'
+
+CSI
+TIME: 3015752
+1,234,567,890,987,654,321
+1234567890987654321
 
 done...

@@ -229,6 +229,7 @@ When you are working with large numbers, more than lets say 6 digits.
 With these numbers it is often difficult to see if it is 2 million something or 20 million something. 
 A proven way to solve this is to print those large numbers in groups of 3 digits separated by comma's.
 This improves the readability a lot and yes the price is more room needed on a display.
+The comma is chosen as it is default thousands separator in Excel.
 
 In the first version the separator is hardcoded a ",", in future it might be configurable.
 This new printHelper function can work with both signed and unsigned up to 64 bit numbers.
