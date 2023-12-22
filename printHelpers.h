@@ -125,9 +125,11 @@ char * printFeet(float feet);
 char * csi(int64_t n);
 char * csi(int32_t n);
 char * csi(int16_t n);
+char * csi(int8_t n);
 char * csi(uint64_t n);
 char * csi(uint32_t n);
 char * csi(uint16_t n);
+char * csi(uint8_t n);
 
 
 
