@@ -31,7 +31,7 @@ data in a way not possible in the standard print library of the Arduino.
 - **printFeet(float feet)** experimental.
 - **csi()** generates a comma separated integer for readability.
 
-Details, see below.
+For the details, see sections below.
 
 If a (generic) print format is missing, please open an issue.
 
@@ -237,12 +237,17 @@ Like all printHelper functions it uses a shared print buffer to keep memory usag
 
 Example 192837465 becomes 192,837,465.
 
+signed
 - **char \* csi(int64_t n)** 
 - **char \* csi(int32_t n)** 
 - **char \* csi(int16_t n)** 
+- **char \* csi(int8_t n)**
+
+unsigned
 - **char \* csi(uint64_t n)** 
 - **char \* csi(uint32_t n)** 
 - **char \* csi(uint16_t n)** 
+- **char \* csi(uint8_t n)**
 
 
 ## Shared print buffer

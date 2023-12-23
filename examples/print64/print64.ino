@@ -20,6 +20,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PRINTHELPERS_VERSION: ");
   Serial.println(PRINTHELPERS_VERSION);
+  Serial.println();
 
   delay(100);
 
