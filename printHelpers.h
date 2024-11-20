@@ -141,6 +141,7 @@ char * csi(uint8_t n);
 //  Based upon Fraction library -> fractionize()
 //
 char * fraction(double value);
+char * fraction(double value, uint32_t denom);
 
 
 //  -- END OF FILE --

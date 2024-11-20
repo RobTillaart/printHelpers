@@ -771,8 +771,90 @@ char * fraction(double value)
 
   //  produce the string
   if (whole > 0) highN += whole * highD;
-  if (negative) sprintf(buffer, "-%ld/%ld", highN, highD);
-  else sprintf(buffer, "%ld/%ld", highN, highD);
+  if (negative)
+  {
+    #if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d/%d", highN, highD);
+    #else
+    sprintf(buffer, "%ld/%ld", highN, highD);
+    #endif
+  }
+  else
+  {
+    #if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d/%d", highN, highD);
+    #else
+    sprintf(buffer, "-%ld/%ld", highN, highD);
+    #endif
+  }
+  return buffer;
+}
+
+
+char * fraction(double value, uint32_t denum)
+{
+  static char buffer[20];
+  if (isnan(value))
+  {
+    strcpy(buffer, "nan");
+    return buffer;
+  }
+  if (isinf(value))
+  {
+    if (value < 0) strcpy(buffer, "-inf");
+    strcpy(buffer, "inf");
+    return buffer;
+  }
+  bool negative = false;
+  if (value < 0)
+  {
+    negative = true;
+    value = -value;
+  }
+
+  float whole = 0;
+  if (value > 1)
+  {
+    whole = (uint32_t)value;
+    value -= whole;
+  }
+
+  uint32_t num = round(value * denum);
+  //  find GCD
+  uint32_t a = num;
+  uint32_t b = denum;
+  while ( a != 0 )
+  {
+    uint32_t c = a;
+    a = b % a;
+    b = c;
+  }
+  //  simplify
+  denum /= b;
+  num /= b;
+
+  //  produce the string
+  if (whole > 0) num += whole * denum;
+  if (negative)
+  {
+    #if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d/%d", num, denum);
+    #else
+    sprintf(buffer, "-%ld/%ld", num, denum);
+    #endif
+  }
+  else
+  {
+    #if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "%d/%d", num, denum);
+    #else
+    sprintf(buffer, "%ld/%ld", num, denum);
+    #endif
+  }
   return buffer;
 }
 

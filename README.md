@@ -266,9 +266,18 @@ The fraction will have a numerator and denumerator in the range 1..99999.
 Note that as floats only have 7 significant digits the precision varies
 especially for numbers above 1 (as decimal part eats up significant digits).
 
+The algorithm is primary meant for values between 0 and 1 however any float 
+will be processed. The algorithm does not always come up with the best 
+fraction 
+
 Time is not constant, e.g. **fraction(PI)** takes about 620 us on an Arduino UNO 16 MHz.
 
-- **char \* fraction(double value)**
+- **char \* fraction(double value)** approach the value with a fraction like n / d.
+- **char \* fraction(double value, uint16_t denom)**  //  choose the denominator.
+Note it will be reduced if possible e.g. 6/8 => 3/4
+
+If you have a faster or more accurate algorithm or both please let me know
+and open an issue.
 
 
 ## Shared print buffer
