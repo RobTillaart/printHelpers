@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -134,14 +134,14 @@ char * print64(uint64_t value, uint8_t base)
 
 //  typical buffer size for 8 byte double is 22 bytes
 //  15 bytes mantissa, sign dot E-xxx
-//  em = exponentMultiple.
+//  em = exponentMultiple == step size exponent.
 char * scieng(double value, uint8_t decimals, uint8_t em)
 {
   char *  buffer   = __printbuffer;
   int     exponent = 0;
   uint8_t pos = 0;
-  double  e1 = 10;
-  double  e2 = 0.1;
+  double  e1 = 10;     //  exponent step > 1
+  double  e2 = 0.1;    //  exponent step < 1
 
   //  scale to multiples of em.
   for (uint8_t i = 1; i < em; i++)
@@ -535,7 +535,7 @@ char * printFeet(float feet)
 //  Comma Separated Integers
 //  Experimental
 //
-//  TODO 
+//  TODO
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
 //
@@ -543,8 +543,8 @@ char * csi(int64_t value)
 {
   char * buffer = __printbuffer;
   int index = 0;
-  bool neg = (value < 0);
-  if (neg)
+  bool negative = (value < 0);
+  if (negative)
   {
     value = -value;
   }
@@ -560,7 +560,7 @@ char * csi(int64_t value)
       buffer[index++] = ',';
     }
   }
-  if (neg)
+  if (negative)
   {
     buffer[index++] = '-';
   }
@@ -578,8 +578,8 @@ char * csi(int32_t value)
 {
   char * buffer = __printbuffer;
   int index = 0;
-  bool neg = (value < 0);
-  if (neg)
+  bool negative = (value < 0);
+  if (negative)
   {
     value = -value;
   }
@@ -595,7 +595,7 @@ char * csi(int32_t value)
       buffer[index++] = ',';
     }
   }
-  if (neg)
+  if (negative)
   {
     buffer[index++] = '-';
   }
@@ -683,6 +683,98 @@ char * csi(uint8_t value)
   return csi((uint32_t)value);
 }
 
+
+////////////////////////////////////////////////////////////
+//
+//  Fraction
+//  Experimental
+//  Based upon Fraction library -> fractionize()
+//
+char * fraction(double value)
+{
+  static char buffer[20];
+  if (isnan(value))
+  {
+    strcpy(buffer, "nan");
+    return buffer;
+  }
+  if (isinf(value))
+  {
+    if (value < 0) strcpy(buffer, "-inf");
+    strcpy(buffer, "inf");
+    return buffer;
+  }
+  bool negative = false;
+  if (value < 0)
+  {
+    negative = true;
+    value = -value;
+  }
+
+  float whole = 0;
+  if (value > 1)
+  {
+    whole = (uint32_t)value;
+    value -= whole;
+  }
+
+  //  find nearest fraction
+  float Precision = 0.000001;
+
+  //  low = (0,1), high = (1,1)
+  int32_t lowN = 0;
+  int32_t lowD = 1;
+  int32_t highN = 1;
+  int32_t highD = 1;
+
+  //  max 100 iterations
+  for (int i = 0; i < 100; ++i)
+  {
+    float testLow = lowD * value - lowN;
+    float testHigh = highN - highD * value;
+    if (testHigh < Precision * highD)
+      break;  //  high is answer
+
+    if (testLow < Precision * lowD)
+    { //  low is answer
+      highD = lowD;
+      highN = lowN;
+      break;
+    }
+    if (i & 1)
+    { //  odd step: add multiple of low to high
+      float test = testHigh / testLow;
+      int32_t count = (int32_t)test;    //  "N"
+      int32_t n = (count + 1) * lowN + highN;
+      int32_t d = (count + 1) * lowD + highD;
+      if ((n > 0x8000) || (d > 0x10000))   //   0x8000 0x10000
+        break;
+      highN = n - lowN;
+      highD = d - lowD;
+      lowN = n;
+      lowD = d;
+    }
+    else
+    { //  even step: add multiple of high to low
+      float test = testLow / testHigh;
+      int32_t count = (int32_t)test;     //  "N"
+      int32_t n = lowN + (count + 1) * highN;
+      int32_t d = lowD + (count + 1) * highD;
+      if ((n > 0x10000) || (d > 0x10000))   //   0x10000 0x10000
+        break;
+      lowN = n - highN;
+      lowD = d - highD;
+      highN = n;
+      highD = d;
+    }
+  }
+
+  //  produce the string
+  if (whole > 0) highN += whole * highD;
+  if (negative) sprintf(buffer, "-%ld/%ld", highN, highD);
+  else sprintf(buffer, "%ld/%ld", highN, highD);
+  return buffer;
+}
 
 
 //  -- END OF FILE --
