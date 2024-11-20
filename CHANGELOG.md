@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.4.5] - 2024-11-20
 - add experimental **fraction()**
 - add **print_fractions.ino** example
+- add **print_fractions_denum.ino** example
 - update **print_sci_experimental.ino** example
-- added define PRINTHELPERS_LIB_VERSION for future.
+- added define PRINTHELPERS_LIB_VERSION.
 - update readme.md
 
 ## [0.4.4] - 2024-01-05

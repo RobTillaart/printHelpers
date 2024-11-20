@@ -677,7 +677,6 @@ char * csi(uint16_t value)
   return csi((uint32_t)value);
 }
 
-
 char * csi(uint8_t value)
 {
   return csi((uint32_t)value);

@@ -17,20 +17,20 @@ Arduino library to help formatting data for printing.
 ## Description
 
 The printHelpers library contains a number of functions that help to print
-data in a way not possible in the standard print library of the Arduino.
+data in a way not supported in the standard print library of the Arduino.
 
-- **print64()** generates string for **uint64_t** and **int64_t**.
-- **sci()** generates in scientific format - exponent has step 1.
-- **eng()** generates in engineering format - exponent has step 3.
-- **scieng()** generates in exponential format - exponent has step 1 to 9.
-- **toBytes()** generates KB MB GB etc.
-- **hex()** generates hexadecimal output with leading zeros up to **uint64_t**.
-- **bin()** generates binary output with leading zeros up to **uint64_t**.
-- **toRoman()** generates a ROMAN representation of a (positive) number.
-- **printInch(float inch, uint16_t step)** experimental.
-- **printFeet(float feet)** experimental.
-- **csi()** generates a comma separated integer for readability.
-- **fraction()** generates a fraction representation of a double/float.
+- **char \* print64()** returns a string for **uint64_t** and **int64_t**.
+- **char \* sci()** returns a string in scientific format - exponent has step 1.
+- **char \* eng()** returns a string in engineering format - exponent has step 3.
+- **char \* scieng()** returns a string in exponential format - exponent has step 1 to 9.
+- **char \* toBytes()** returns a string in KB MB GB etc.
+- **char \* hex()** returns hexadecimal output with **leading zeros** up to **uint64_t**.
+- **char \* bin()** returns binary output with **leading zeros** up to **uint64_t**.
+- **char \* toRoman()** returns a ROMAN representation of a (positive) number.
+- **char \* printInch(float inch, uint16_t step)** returns a string e.g. 5 7/8".
+- **char \* printFeet(float feet)** returns a string e.g. 7"4'
+- **char \* csi()** returns a comma separated integer for readability e.g. 3,254,152.
+- **char \* fraction()** returns a fraction representation of a double/float e.g. 355/113.
 
 For the details, see sections below.
 
@@ -63,7 +63,7 @@ The following functions are implemented:
 
 ### print64()
 
-- **char \* print64(int64_t value, uint8_t base = 10)**  converts a 64 bit integer
+- **char \* print64(int64_t value, uint8_t base = 10)** converts a 64 bit integer
 number to a char array.
 The plus sign is not printed, neither are leading zero's.
 Base 10 (DEC) and 16 (HEX) are supported and other bases up to 36 can be used.
@@ -120,8 +120,8 @@ mantissa. This is e.g. useful for temperature Celsius or percentages.
 - **char \* toBytes(double value, uint8_t decimals = 2)** converts a big number
 representing an amount of bytes to a shorter string usable for displaying.
 The string uses official extensions.
-The number of decimals is max 3:
-    Example  3.292.528 ==> "3.140 MB"
+
+The number of decimals is max 3, example: 3.292.528 ==> "3.140 MB"
 
 Value ranges supported are in steps of powers of 1024.
 These will all be shown in UPPERCASE so KB, MB etc.
@@ -142,7 +142,7 @@ That would take extra memory or slightly more complex code.
 As it is very seldom used, "official" support stops with UDA.
 Should be big enough for some time.
 
-Note: max uint64_t = 2^64 is in the order of exa or zetta bytes.
+Note: max uint64_t == 2^64 is in the order of exa or zetta bytes.
 
 To have some support for the really big sizes the code uses lowercase for the next 8 levels:
 treda sorta rinta quexa pepta ocha nena minga luma (1024\^13 ~~ 1024\^21)
@@ -273,7 +273,7 @@ fraction
 Time is not constant, e.g. **fraction(PI)** takes about 620 us on an Arduino UNO 16 MHz.
 
 - **char \* fraction(double value)** approach the value with a fraction like n / d.
-- **char \* fraction(double value, uint16_t denom)**  //  choose the denominator.
+- **char \* fraction(double value, uint16_t denom)** choose the denominator.
 Note it will be reduced if possible e.g. 6/8 => 3/4
 
 If you have a faster or more accurate algorithm or both please let me know
@@ -293,7 +293,7 @@ The size of this shared buffer is default 66 to be able to print a 64 bit
 integer in base 2.
 To save memory one can change this buffer size in the code or compile time
 by changing **PRINTBUFFERSIZE** in printHelpers.h.
-Be aware that  **sci()** and **eng()** use the same buffer.
+Be aware that **sci()** and **eng()** use the same buffer.
 These functions need about 10 bytes plus one bytes for every decimal used.
 So for floats one need 15-20 bytes max, for doubles one need up to 30 bytes max.
 In practice a size of 22 will work for most applications.
@@ -332,6 +332,8 @@ When functions are added, the recommended minimum size might increase.
   - pass char buffer as parameter (breaking)
   - could be the log10 pow version?
 - optimize **char \* hex(uint8_t / uint16_t ...)**
+- negative ROMAN numbers (add a - sign)
+
 
 #### Wont
 
