@@ -1,11 +1,11 @@
 //
-//    FILE: print_sci.ino
+//    FILE: sci_class.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo program SCI
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "printHelpers.h"
+#include "sci.h"
 
 
 void setup()
@@ -14,7 +14,7 @@ void setup()
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTHELPERS_LIB_VERSION: ");
-  Serial.println(PRINTHELPERS_LIB_VERSION);
+  //  Serial.println(PRINTHELPERS_LIB_VERSION);
   Serial.println();
 
   Serial.println(sizeof(float));
@@ -74,7 +74,7 @@ void setup()
     Serial.println(scieng(E, 8, em));
   }
   Serial.println();
-  
+
   if (sizeof(double) == 8)
   {
     while (E < 1e308)
@@ -94,4 +94,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.6
+// VERSION: 0.4.7
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,9 +12,9 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_LIB_VERSION  (F("0.4.5"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.4.7"))
 //  PRINTHELPERS_VERSION is obsolete in future 
-#define PRINTHELPERS_VERSION      (F("0.4.5"))
+#define PRINTHELPERS_VERSION      (F("0.4.7"))
 
 
 //  global buffer used by all functions so no static buffer in every function

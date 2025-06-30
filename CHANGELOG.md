@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.7] - 2025-06-30
+- fix #24, add sci.h as class implementation for scientific and engineering notation.
+- add experimental folder
+- fix PRINTHELPERS_LIB_VERSION
+- update readme.md
+- minor edits
+
 ## [0.4.6] - 2024-11-21
 - fix #22, negative fractions
 - fix unofficial **toRoman()** for > 4888

@@ -45,6 +45,13 @@ Therefore one should copy / print the data (returned pointer) as fast as possibl
 
 Thread-safe versions of these print functions might be made in the future.
 
+#### sci.h
+
+A class implementation of the **scieng**, **sci()** and **eng()** is made in **sci.h**.
+These are short living classes that do not share the buffer, so should be thread safe.
+
+TODO: Needs testing / verification e.g. in RTOS.
+
 
 ### Related
 
@@ -113,6 +120,11 @@ The **scieng()** function works for multiples from 1..9 for the exponent.
 The usability of other values than 1 and 3 are not known.
 Personally I like the multiple of 2 as I get 2 orders of magnitude in the
 mantissa. This is e.g. useful for temperature Celsius or percentages.
+
+Note: if the parameter **exponentMultiple** is set to zero, 
+the function scieng() will print e.g. x.xxxxxE+00, with the exponent set to zero.
+Although this is technically a bug it could be a feature for someone.
+So I decided to leave this behaviour in the code.
 
 
 ### toBytes()

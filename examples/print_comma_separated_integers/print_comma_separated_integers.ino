@@ -12,9 +12,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTHELPERS_LIB_VERSION: ");
   Serial.println(PRINTHELPERS_LIB_VERSION);
+  Serial.println();
 
   Serial.println((int32_t)123456789);
   Serial.println(csi((int32_t)123456789));
@@ -41,4 +43,4 @@ void loop()
   }
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --
