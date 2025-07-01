@@ -89,7 +89,6 @@ class print64
         i--;
         j++;
       }
-      return;
     }
 
     print64(uint64_t value, uint8_t base = 10)
@@ -124,7 +123,6 @@ class print64
         i--;
         j++;
       }
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
@@ -252,7 +250,6 @@ class scieng
 
       if (exponent < 10) buffer[pos++] = '0';
       itoa(exponent, &buffer[pos], 10);
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
@@ -290,6 +287,74 @@ class eng : public scieng
 //
 //  To have some support the code uses lowercase for the next 8 levels
 //  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
+class toBytes
+{
+  protected:
+    char buffer[24];
+
+  public:
+    toBytes(double value, uint8_t decimals = 2)
+    {
+      //  to enable full range uncomment the following line
+      //  char  units[] = " KMGTPEZYXWVUtsrqponml";
+      char  units[] = " KMGTPEZYXWVU";
+      uint8_t i = 0;    //  i is index of the unit array == powers of 1024.
+
+      if (isnan(value))
+      {
+        strcpy(buffer, "nan");
+        return;
+      }
+      if (isinf(value))
+      {
+        strcpy(buffer, "inf");
+        return;
+      }
+
+      while(value >= 1024)
+      {
+        value /= 1024;
+        i++;
+      }
+      if (i == 0) decimals = 0;
+      if (decimals > 3) decimals = 3;
+
+      //  WHOLE PART iv
+      int integerPart = value;
+      itoa(integerPart, &buffer[0], 10);
+
+      //  DECIMALS
+      value -= integerPart;
+      uint8_t pos = strlen(buffer);
+      if (decimals > 0)
+      {
+        buffer[pos++] = '.';
+        while (decimals-- > 0)
+        {
+          value = value * 10;
+          buffer[pos++] = '0' + int(value);
+          value -= int(value);
+        }
+      }
+
+      //  UNITS
+      if (i <= strlen(units))
+      {
+        if (i > 0) buffer[pos++] = ' ';
+        buffer[pos++] = units[i];
+        buffer[pos++] = 'B';
+        buffer[pos]   = 0;
+      }
+      else
+      {
+        //  no units available
+      }
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
 
 
 ////////////////////////////////////////////////////////////
@@ -298,6 +363,65 @@ class eng : public scieng
 //
 //  always leading zero's - no prefix - no separators
 //  cast if needed.
+class hex
+{
+  protected:
+    char buffer[20];
+
+  public:
+    hex(uint64_t value, uint8_t digits = 16)
+    {
+      uint64_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        uint8_t v = val & 0x0F;
+        val >>= 4;
+        digits--;
+        buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
+      }
+    }
+    hex(uint32_t value, uint8_t digits = 8)
+    {
+      uint32_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        uint8_t v = val & 0x0F;
+        val >>= 4;
+        digits--;
+        buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
+      }
+    }
+    hex(uint16_t value, uint8_t digits = 4)
+    {
+      uint16_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        uint8_t v = val & 0x0F;
+        val >>= 4;
+        digits--;
+        buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
+      }
+    }
+    hex(uint8_t value, uint8_t digits = 2)
+    {
+      uint8_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        uint8_t v = val & 0x0F;
+        val >>= 4;
+        digits--;
+        buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
+      }
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
 
 
 ////////////////////////////////////////////////////////////
@@ -306,6 +430,61 @@ class eng : public scieng
 //
 //  always leading zero's - no prefix - no separators
 //  cast if needed.
+class bin
+{
+  protected:
+    char buffer[66];
+
+  public:
+    bin(uint64_t value, uint8_t digits = 64)
+    {
+      uint64_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        digits--;
+        buffer[digits] = '0' + (val & 1);
+        val >>= 1;
+      }
+    }
+    bin(uint32_t value, uint8_t digits = 32)
+    {
+      uint32_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        digits--;
+        buffer[digits] = '0' + (val & 1);
+        val >>= 1;
+      }
+    }
+    bin(uint16_t value, uint8_t digits = 16)
+    {
+      uint16_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        digits--;
+        buffer[digits] = '0' + (val & 1);
+        val >>= 1;
+      }
+    }
+    bin(uint8_t value, uint8_t digits = 8)
+    {
+      uint8_t val = value;
+      buffer[digits] = '\0';
+      while (digits > 0)
+      {
+        digits--;
+        buffer[digits] = '0' + (val & 1);
+        val >>= 1;
+      }
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
 
 
 ////////////////////////////////////////////////////////////
@@ -314,6 +493,25 @@ class eng : public scieng
 //
 //  value should be in range 1..9999
 //  values 10K-100M are experimental in lower case (see readme.md)
+
+
+/*
+class toBytes
+{
+  protected:
+    char buffer[24];
+
+  public:
+    toBytes(double value, uint8_t decimals)
+    {
+
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+*/
 
 
 ////////////////////////////////////////////////////////////

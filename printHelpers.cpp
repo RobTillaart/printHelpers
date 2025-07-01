@@ -298,9 +298,14 @@ char * toBytes(double value, uint8_t decimals)
   char  units[] = " KMGTPEZYXWVU";
   uint8_t i = 0;    //  i is index of the unit array == powers of 1024.
 
+  if (isnan(value))
+  {
+    strcpy(buffer, "nan");
+    return buffer;
+  }
   if (isinf(value))
   {
-    strcpy(buffer, "<inf>");
+    strcpy(buffer, "inf");
     return buffer;
   }
 

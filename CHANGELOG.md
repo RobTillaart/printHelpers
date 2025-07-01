@@ -11,10 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - class implementation for multThreading.
   - scieng(), sci() and eng()
   - print64()
-- add MT examples
+  - toBytes()
+  - hex(), bin()
+- add several MT examples
 - fix PRINTHELPERS_LIB_VERSION
 - obsolete PRINTHELPERS_VERSION
 - catch error in print64() (buffer too small).
+- catch error in toBytes() (NAN).
 - update readme.md
 - minor edits
 

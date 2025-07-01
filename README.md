@@ -44,29 +44,8 @@ so **printHelpers.h** is definitely **not** thread safe.
 Therefore one should copy / print the data (returned pointer) as fast as possible.
 
 Thread-safe versions of the print functions will be made in the future.
-See the next section, one need to include **printHelpersMT.h**.
+See the section below, one need to include **printHelpersMT.h**.
 Not all functionality is converted yet.
-
-
-#### printHelpersMT.h
-
-This version of the library implements classes for the printHelper functions.
-These are short living classes that do not share a buffer, so they should be thread safe.
-
-```cpp
-#include "printHelpersMT.h"
-```
-
-These are implemented so far (description identical to below).
-
-- **print64(int64_t value, uint8_t base = 10)**
-- **print64(uint64_t value, uint8_t base = 10)**
-- **scieng(double value, uint8_t decimals, uint8_t em = 1)**
-- **sci(double value, uint8_t decimals)**
-- **eng(double value, uint8_t decimals)**
-
-
-TODO: Needs testing / verification e.g. in RTOS.
 
 
 ### Related
@@ -353,16 +332,69 @@ In practice a size of 22 will work for most applications.
 When functions are added, the recommended minimum size might increase.
 
 
+----
+
+## Interface printHelpersMT.h
+
+This MT ( == MultiThreading) version of the library implements classes for the printHelper functions.
+These are short living classes that do not share a buffer, so they should be thread safe.
+
+Not all functions are ported yet, the description is identical to functions above.
+
+```cpp
+#include "printHelpersMT.h"
+```
+
+### print64()
+
+- **print64(int64_t value, uint8_t base = 10)**
+- **print64(uint64_t value, uint8_t base = 10)**
+
+### sci() eng()
+
+- **scieng(double value, uint8_t decimals, uint8_t em = 1)**
+- **sci(double value, uint8_t decimals)**
+- **eng(double value, uint8_t decimals)**
+
+### toBytes()
+
+- **toBytes(double value, uint8_t decimals = 2)**
+
+### hex() bin()
+
+- **hex(uint64_t value, uint8_t digits = 16)**
+- **hex(uint32_t value, uint8_t digits = 8)**
+- **hex(uint16_t value, uint8_t digits = 4)**
+- **hex(uint8_t value, uint8_t digits = 2)**
+- **bin(uint64_t value, uint8_t digits = 64)**
+- **bin(uint32_t value, uint8_t digits = 32)**
+- **bin(uint16_t value, uint8_t digits = 16)**
+- **bin(uint8_t value, uint8_t digits = 8)**
+
+TODO: Needs testing / verification e.g. in RTOS.
+
+TODO: sections below
+
+### toRoman()
+
+### Distance feet inch
+
+### Comma Separated Integer
+
+### Fraction
+
+
+
 ## Future
 
 #### Must
 
-- check TODO's in the code
-- documentation
-- implement printHelpersMT.h
+- check TODO's in the code / documentation
+- improve documentation
 
 #### Should
 
+- implement printHelpersMT.h (remaining)
 - improve readability of the code
   - em ==> exponentFactor?
 - extend unit tests
@@ -374,9 +406,6 @@ When functions are added, the recommended minimum size might increase.
   - like this "s0 m0111010 e100010" (right length)
 - investigate separators in **hex()**
   - space per 8, 4 or 2
-- investigate thread safe version
-  - pass char buffer as parameter (breaking)
-  - could be the log10 pow version?
 - optimize **char \* hex(uint8_t / uint16_t ...)**
 - base64 representation
   - base64(float)
