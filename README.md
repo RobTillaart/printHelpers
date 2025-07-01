@@ -39,16 +39,23 @@ If a (generic) print format is missing, please open an issue.
 
 ### Thread safety
 
-Note the functions of this library all share an internal buffer, so the library is
-definitely **not** thread safe.
+Note the functions of this library all share the same internal buffer, 
+so **printHelpers.h** is definitely **not** thread safe.
 Therefore one should copy / print the data (returned pointer) as fast as possible.
 
-Thread-safe versions of these print functions might be made in the future.
+Thread-safe versions of the print functions will be made in the future.
+See the next section, one need to include **printHelpersMT.h**.
+Not all functionality is converted yet.
 
-#### sci.h
 
-A class implementation of the **scieng**, **sci()** and **eng()** is made in **sci.h**.
-These are short living classes that do not share the buffer, so should be thread safe.
+#### printHelpersMT.h
+
+A class implementation of the **scieng**, **sci()** and **eng()** is made.
+These are short living classes that do not share a buffer, so should be thread safe.
+
+```cpp
+#include "printHelpersMT.h"
+```
 
 TODO: Needs testing / verification e.g. in RTOS.
 
@@ -315,8 +322,7 @@ The implementation of the function all use a shared buffer to hold the
 generated string.
 This is done to reduce the memory overhead of embedding static buffers.
 **Note this is not thread safe!**
-In a coming release the functions will be able to pass a buffer to them
-to become more thread safe.
+See section about thread safety above.
 
 The size of this shared buffer is default 66 to be able to print a 64 bit
 integer in base 2.
@@ -344,6 +350,7 @@ When functions are added, the recommended minimum size might increase.
 
 - check TODO's in the code
 - documentation
+- implement printHelpersMT.h
 
 #### Should
 
@@ -362,6 +369,13 @@ When functions are added, the recommended minimum size might increase.
   - pass char buffer as parameter (breaking)
   - could be the log10 pow version?
 - optimize **char \* hex(uint8_t / uint16_t ...)**
+- base64 representation
+  - base64(float)
+  - base64(double)
+  - base64(any type) 
+  - type debase64(type, string);
+  - needs investigation
+
 
 #### Wont
 

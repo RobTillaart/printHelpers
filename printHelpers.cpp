@@ -172,13 +172,13 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   }
 
   //  Scale exponent to multiple of em
-  //  TODO: can we remove loop to reduce rounding errors
+  //  loop can be removed by using pow and log however
+  //  in small tests it was not faster or more accurate
   while (value >= e1)
   {
     value *= e2;
     exponent += em;
   }
-  //  TODO: can we remove loop to reduce rounding errors
   while (value < 1 && value != 0.0)
   {
     value *= e1;
@@ -187,7 +187,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
-  //  TODO: can we remove loop to reduce rounding errors?
+  //  TODO: can optimize loop to reduce rounding errors?
   //        additional loop that steps per 1000?
   for (uint8_t i = 0; i < decimals; ++i)
   {
