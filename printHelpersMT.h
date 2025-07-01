@@ -20,6 +20,119 @@
 #define PRINTHELPERS_LIB_VERSION  (F("0.4.7"))
 #endif
 
+
+////////////////////////////////////////////////////////////
+//
+//  PRINT 64 BIT
+//
+
+//  print64 note
+//  buffer size 66 will work for base 2 -36
+//  buffer size 34 will work for base 4 -36
+//  buffer size 24 will work for base 8 -36
+//  buffer size 22 will work for base 10 - 36
+class print64
+{
+  protected:
+    char buffer[66];
+
+  public:
+    print64(int64_t value, uint8_t base = 10)
+    {
+      uint8_t i = 0;
+      uint8_t j = 0;
+
+      buffer[0] = 0;
+      //  handle special case
+      if (value == 0)
+      {
+        buffer[0] = '0';
+        buffer[1] = 0;
+        return;
+      }
+
+      //  PREFIX NEGATIVE
+      //  handle negative values (for all bases for now)
+      if ((value < 0) && (base != 16))
+      {
+        value = -value;
+        buffer[0] = '-';
+        i++;
+        j++;
+      }
+
+      //  PREFIX HEX
+      if (base == 16)
+      {
+        buffer[0] = '0';
+        buffer[1] = 'x';
+        buffer[2] = 0;
+        i = 2;
+        j = 2;
+      }
+      //  create one digit per loop
+      while (value > 0)
+      {
+        int64_t temp = value / base;
+        uint8_t digit = value - temp * base;
+        buffer[i++] = (digit < 10) ? '0' + digit : ('A' - 10) + digit;
+        value = temp;
+      }
+      buffer[i] = 0;
+      //  reverse buffer
+      --i;
+      while ( i > j)
+      {
+        uint8_t temp = buffer[i];
+        buffer[i]    = buffer[j];
+        buffer[j]    = temp;
+        i--;
+        j++;
+      }
+      return;
+    }
+
+    print64(uint64_t value, uint8_t base = 10)
+    {
+      uint8_t i = 0;
+      uint8_t j = 0;
+
+      buffer[0] = 0;
+      //  handle special case
+      if (value == 0)
+      {
+        buffer[0] = '0';
+        buffer[1] = 0;
+        return;
+      }
+      //  create one digit per iteration
+      while (value > 0)
+      {
+        uint64_t temp = value / base;
+        uint8_t  digit = value - temp * base;
+        buffer[i++] = (digit < 10) ? '0' + digit : ('A' - 10) + digit;
+        value = temp;
+      }
+      buffer[i] = 0;
+      //  reverse buffer
+      --i;
+      while (i > j)
+      {
+        uint8_t temp = buffer[i];
+        buffer[i]    = buffer[j];
+        buffer[j]    = temp;
+        i--;
+        j++;
+      }
+      return;
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+
+
 ////////////////////////////////////////////////////////////
 //
 //  Scientific + Engineering notation
@@ -162,9 +275,6 @@ class eng : public scieng
     eng(double value, uint8_t decimals) : scieng(value, decimals, 3)
     {}
 };
-
-
-//  TODO
 
 
 ////////////////////////////////////////////////////////////

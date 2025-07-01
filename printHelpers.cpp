@@ -37,7 +37,12 @@ char * print64(int64_t value, uint8_t base)
 
   buffer[0] = 0;
   //  small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buffer;
+  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) 
+  {
+    buffer[0] = 'E';  // Error
+    buffer[1] = 0;
+    return buffer;
+  }
   //  handle special case
   if (value == 0)
   {
@@ -96,7 +101,12 @@ char * print64(uint64_t value, uint8_t base)
 
   buffer[0] = 0;
   //  small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buffer;
+  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) 
+  {
+    buffer[0] = 'E';  // Error
+    buffer[1] = 0;
+    return buffer;
+  }
   //  handle special case
   if (value == 0)
   {

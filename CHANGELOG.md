@@ -10,9 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix #24, add printHelpersMT.h, 
   - class implementation for multThreading.
   - scieng(), sci() and eng()
+  - print64()
 - add MT examples
 - fix PRINTHELPERS_LIB_VERSION
 - obsolete PRINTHELPERS_VERSION
+- catch error in print64() (buffer too small).
 - update readme.md
 - minor edits
 

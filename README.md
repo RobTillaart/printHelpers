@@ -50,12 +50,21 @@ Not all functionality is converted yet.
 
 #### printHelpersMT.h
 
-A class implementation of the **scieng**, **sci()** and **eng()** is made.
-These are short living classes that do not share a buffer, so should be thread safe.
+This version of the library implements classes for the printHelper functions.
+These are short living classes that do not share a buffer, so they should be thread safe.
 
 ```cpp
 #include "printHelpersMT.h"
 ```
+
+These are implemented so far (description identical to below).
+
+- **print64(int64_t value, uint8_t base = 10)**
+- **print64(uint64_t value, uint8_t base = 10)**
+- **scieng(double value, uint8_t decimals, uint8_t em = 1)**
+- **sci(double value, uint8_t decimals)**
+- **eng(double value, uint8_t decimals)**
+
 
 TODO: Needs testing / verification e.g. in RTOS.
 
