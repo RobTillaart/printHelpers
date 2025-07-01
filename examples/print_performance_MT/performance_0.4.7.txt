@@ -2,7 +2,7 @@
 Arduino UNO R3
 IDE 1.8.19
 
-print_performance_sci\print_performance_sci.ino
+print_performance_MT.ino
 
 4
 4

@@ -1,7 +1,7 @@
 //
 //    FILE: print_comma_separated_integers.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo readability
+// PURPOSE: demo readability of (large) integers
 //     URL: https://github.com/RobTillaart/printHelpers
 
 

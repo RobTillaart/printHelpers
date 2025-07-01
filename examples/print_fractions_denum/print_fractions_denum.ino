@@ -37,7 +37,7 @@ void setup()
   Serial.println();
   delay(100);
 
-  //  notice most fractions will occur 3 or 4 times as denom 
+  //  notice most fractions will occur 3 or 4 times as denom
   //  is smaller than the step size of n.
   double n = 0.500;
   for (int i = 0; i <= 1000; i++)

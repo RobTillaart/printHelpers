@@ -1,11 +1,11 @@
 //
-//    FILE: sci_class.ino
+//    FILE: print_sci_MT.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo program SCI
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "sci.h"
+#include "printHelpersMT.h"
 
 
 void setup()
@@ -14,7 +14,7 @@ void setup()
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTHELPERS_LIB_VERSION: ");
-  //  Serial.println(PRINTHELPERS_LIB_VERSION);
+  Serial.println(PRINTHELPERS_LIB_VERSION);
   Serial.println();
 
   Serial.println(sizeof(float));

@@ -1,23 +1,36 @@
 #pragma once
 //
-//    FILE: sci.h
+//    FILE: printHelpersMT.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-06-30
 // VERSION: See printHelpers.h
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
-//  class implementation of the scieng(), sci() and eng() functions.
+//  Class implementations of the printHelpers.h functions.
 //  These do not share the output buffer and should be thread safe.
 //  To be verified.
+
 
 #include "Arduino.h"
 #include "stdlib.h"
 
+
+#ifndef PRINTHELPERS_LIB_VERSION
+#define PRINTHELPERS_LIB_VERSION  (F("0.4.7"))
+#endif
+
+////////////////////////////////////////////////////////////
+//
+//  Scientific + Engineering notation
+//
+//  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
+//  15 bytes mantissa, sign dot E-xxx
+//  em = exponentMultiple.
 class scieng
 {
   protected:
-    char buffer[25];
+    char buffer[24];
 
   public:
     scieng(double value, uint8_t decimals, uint8_t em = 1)
@@ -150,6 +163,70 @@ class eng : public scieng
     {}
 };
 
+
+//  TODO
+
+
+////////////////////////////////////////////////////////////
+//
+//  toBytes()
+//
+//  official support to UDA == 1024^12
+//  kilo mega giga tera peta exa (1024^6)
+//  zetta yotta xona weka vunda uda (1024^12)
+//
+//  (treda Byte == TDB is the next one and it is 2 char
+//  so code wise difficult and as it is seldom used, support stops there.
+//
+//  To have some support the code uses lowercase for the next 8 levels
+//  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
+
+
+////////////////////////////////////////////////////////////
+//
+//  hex()
+//
+//  always leading zero's - no prefix - no separators
+//  cast if needed.
+
+
+////////////////////////////////////////////////////////////
+//
+//  BIN
+//
+//  always leading zero's - no prefix - no separators
+//  cast if needed.
+
+
+////////////////////////////////////////////////////////////
+//
+//  toRoman()
+//
+//  value should be in range 1..9999
+//  values 10K-100M are experimental in lower case (see readme.md)
+
+
+////////////////////////////////////////////////////////////
+//
+//  Distances
+//  Experimental
+//
+//  step == 2,4,8,16,32,64,128,256 (default 16)
+
+
+////////////////////////////////////////////////////////////
+//
+//  Comma Separated Integers
+//  Experimental
+//
+
+
+////////////////////////////////////////////////////////////
+//
+//  Fraction
+//  Experimental
+//  Based upon Fraction library -> fractionize()
+//
 
 //  -- END OF FILE --
 

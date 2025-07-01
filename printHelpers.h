@@ -12,9 +12,11 @@
 #include "stdlib.h"
 
 
+#ifndef PRINTHELPERS_LIB_VERSION
 #define PRINTHELPERS_LIB_VERSION  (F("0.4.7"))
+#endif
 //  PRINTHELPERS_VERSION is obsolete in future 
-#define PRINTHELPERS_VERSION      (F("0.4.7"))
+//  #define PRINTHELPERS_VERSION      (F("0.4.7"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -48,7 +50,7 @@ char * print64(uint64_t value, uint8_t base = 10);
 //
 //  Scientific + Engineering notation
 //
-//  typical buffer size for 8 byte double is 22 bytes
+//  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
 //  15 bytes mantissa, sign dot E-xxx
 //  em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em);

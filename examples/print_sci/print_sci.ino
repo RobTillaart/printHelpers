@@ -74,7 +74,7 @@ void setup()
     Serial.println(scieng(E, 8, em));
   }
   Serial.println();
-  
+
   if (sizeof(double) == 8)
   {
     while (E < 1e308)

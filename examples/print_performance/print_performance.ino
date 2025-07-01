@@ -1,7 +1,7 @@
 //
-//    FILE: print_sci_eng_performance.ino
+//    FILE: print_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo program SCI
+// PURPOSE: test program
 //     URL: https://github.com/RobTillaart/printHelpers
 
 

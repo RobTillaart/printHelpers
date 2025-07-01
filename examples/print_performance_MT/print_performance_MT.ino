@@ -1,11 +1,11 @@
 //
-//    FILE: print_performance_sci.ino
+//    FILE: print_performance_MT.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo program SCI
+// PURPOSE: test program
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "sci.h"
+#include "printHelpersMT.h"
 
 
 uint32_t start = 0;
