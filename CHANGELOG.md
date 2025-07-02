@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - printInch(), printFeet()
   - csi(), fraction()
 - add several MT examples
-- add unit test for the printHelpersMT.h
+- update unit tests
 - fix PRINTHELPERS_LIB_VERSION
 - obsolete PRINTHELPERS_VERSION
 - catch error in print64() (buffer too small).
