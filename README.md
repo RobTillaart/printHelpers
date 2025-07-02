@@ -417,10 +417,10 @@ TODO: Needs more testing / verification e.g. in RTOS.
 
 #### Should
 
-- implement printHelpersMT.h (remaining)
+- implement printHelpersMT.h unit tests
+  - rewrite of current needed
 - improve readability of the code
   - em ==> exponentFactor?
-- extend unit tests
 
 #### Could
 
