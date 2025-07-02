@@ -341,6 +341,8 @@ These are short living classes that do not share a buffer, so they should be thr
 
 Not all functions are ported yet, the description is identical to functions above.
 
+TODO: Needs testing / verification e.g. in RTOS.
+
 ```cpp
 #include "printHelpersMT.h"
 ```
@@ -371,17 +373,23 @@ Not all functions are ported yet, the description is identical to functions abov
 - **bin(uint16_t value, uint8_t digits = 16)**
 - **bin(uint8_t value, uint8_t digits = 8)**
 
-TODO: Needs testing / verification e.g. in RTOS.
-
-TODO: sections below
-
 ### toRoman()
+
+- **toRoman(int32_t value)**
 
 ### Distance feet inch
 
+- **printInch(float inch, uint16_t step = 16)**
+- **printFeet(float feet)**
+
+
 ### Comma Separated Integer
 
+TODO
+
 ### Fraction
+
+TODO
 
 
 

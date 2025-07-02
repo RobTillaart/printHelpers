@@ -493,7 +493,155 @@ class bin
 //
 //  value should be in range 1..9999
 //  values 10K-100M are experimental in lower case (see readme.md)
+class toRoman
+{
+  protected:
+    char buffer[18];
 
+  public:
+    toRoman(int32_t value)
+    {
+      int32_t       val = value;
+      uint16_t    n[13] = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+      char roman[13][3] = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+
+      buffer[0] = 0;
+      int idx = 0;
+      if (val == 0)
+      {
+        strcat(buffer, "N");  //  NULL
+        return;
+      }
+      //  handle negative values
+      if (val < 0)
+      {
+        strcat(buffer, "-");
+        val = -val;
+      }
+      if (val > 100000000L)
+      {
+        strcat(buffer, "ovf");  //  overflow
+        return;
+      }
+
+      if (val >= 10000L)
+      {
+        //  10K units
+        while(val >= 10000L)
+        {
+          while (val >= (10000L * n[idx]))
+          {
+            strcat(buffer, roman[idx]);
+            val -= (10000L * n[idx]);
+          };
+          idx++;
+        }
+        //  set chars to lower
+        for (uint16_t i = 0; i < strlen(buffer); i++)
+        {
+          buffer[i] = tolower(buffer[i]);
+        }
+      }
+      //  reset index
+      idx = 0;
+      //  Official part UPPER case letters
+      while(val > 0)
+      {
+        while (val >= n[idx])
+        {
+          strcat(buffer, roman[idx]);
+          val -= n[idx];
+        };
+        idx++;
+      }
+      return;
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+
+
+////////////////////////////////////////////////////////////
+//
+//  Distances
+//  Experimental
+//
+//  step == 2,4,8,16,32,64,128,256 (default 16)
+class printInch
+{
+  protected:
+    char buffer[24];
+
+  public:
+    printInch(float inch, uint16_t step = 16)
+    {
+      uint32_t whole = inch;
+      uint8_t num = round((inch - whole) * step);
+      if (num == step)
+      {
+        whole++;
+        num = 0;
+      }
+      uint8_t den = step;
+      //  reduce factors 2
+      while ((num > 0) && ((num & 1) == 0))
+      {
+        num >>= 1;
+        den >>= 1;
+      }
+
+#if defined(ESP32)
+      //  ESP32 does not support %ld  or ltoa()
+      sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
+      sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
+      return;
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+
+
+class printFeet
+{
+  protected:
+    char buffer[24];
+
+  public:
+    printFeet(float feet)
+    {
+      uint32_t ft = feet;
+      uint8_t inch = round((feet - ft) * 12);
+      if (inch == 12)
+      {
+        ft++;
+        inch = 0;
+      }
+    #if defined(ESP32)
+      //  ESP32 does not support %ld  or ltoa()
+      sprintf(buffer, "%d\"%d\'", ft, inch);
+    #else
+      sprintf(buffer, "%ld\"%d\'", ft, inch);
+    #endif
+      return;
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+
+
+////////////////////////////////////////////////////////////
+//
+//  Comma Separated Integers
+//  Experimental
+//
 
 /*
 class toBytes
@@ -516,25 +664,28 @@ class toBytes
 
 ////////////////////////////////////////////////////////////
 //
-//  Distances
-//  Experimental
-//
-//  step == 2,4,8,16,32,64,128,256 (default 16)
-
-
-////////////////////////////////////////////////////////////
-//
-//  Comma Separated Integers
-//  Experimental
-//
-
-
-////////////////////////////////////////////////////////////
-//
 //  Fraction
 //  Experimental
 //  Based upon Fraction library -> fractionize()
 //
+
+/*
+class toBytes
+{
+  protected:
+    char buffer[24];
+
+  public:
+    toBytes(double value, uint8_t decimals)
+    {
+
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+*/
 
 //  -- END OF FILE --
 

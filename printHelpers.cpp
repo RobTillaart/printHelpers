@@ -514,7 +514,7 @@ char * printInch(float inch, uint16_t step)
     num = 0;
   }
   uint8_t den = step;
-  //  optional reduce
+  //  reduce factors 2
   while ((num > 0) && ((num & 1) == 0))
   {
     num >>= 1;
