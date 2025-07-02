@@ -98,7 +98,7 @@ The thread safe version is minimally tested, feedback is welcome.
 - https://github.com/RobTillaart/PrintString captures data in a String.
 
 
-## Interface
+## Interface printHelpers.h
 
 ```cpp
 #include "printHelpers.h"
@@ -205,17 +205,13 @@ And a 4 byte float can represent up to ~100 udabytes range (1024^12 == 10^36)
 To have some support for the really big sizes the code uses lowercase for the next 8 levels:
 To enable this patch the function in the **printHelpers.cpp** file.
 
-|  Unit       |  abbrev.  |  size     |
-|:-----------:|:---------:|:---------:|
-|  tredabytes |    tB     |  1024^13  |
-|  sortabytes |    sB     |  1024^14  |
-|  rintabytes |    rB     |  1024^15  |
-|  quexabytes |    qB     |  1024^16  |
-|  peptabytes |    pB     |  1024^17  |
-|  ochabytes  |    oB     |  1024^18  |
-|  nenabytes  |    nB     |  1024^19  |
-|  mingabytes |    mB     |  1024^20  |
-|  lumabytes  |    lB     |  1024^21  |
+|  Unit       |  abbrev.  |  size     |  Unit       |  abbrev.  |  size     |
+|:-----------:|:---------:|:---------:|:-----------:|:---------:|:---------:|
+|  tredabytes |    tB     |  1024^13  |  ochabytes  |    oB     |  1024^18  |
+|  sortabytes |    sB     |  1024^14  |  nenabytes  |    nB     |  1024^19  |
+|  rintabytes |    rB     |  1024^15  |  mingabytes |    mB     |  1024^20  |
+|  quexabytes |    qB     |  1024^16  |  lumabytes  |    lB     |  1024^21  |
+|  peptabytes |    pB     |  1024^17  |             |           |           |
 
 Note that from the ZETTA prefix all higher prefixes are starting with the
 previous letter of the alphabet ZYXWVUtsrqponml
