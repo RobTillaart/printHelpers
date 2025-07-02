@@ -174,7 +174,7 @@ unittest(test_toRoman_extended)
 }
 
 
-unit_test(test_printInch)
+unittest(test_printInch)
 {
   fprintf(stderr, "%s\n", printInch(10.75));
   assertEqual(0, strcmp("10 3/4", printInch(10.75)));
@@ -187,7 +187,7 @@ unit_test(test_printInch)
 }
 
 
-unit_test(test_printFeet)
+unittest(test_printFeet)
 {
   fprintf(stderr, "%s\n", printFeet(10.75));
   assertEqual(0, strcmp("10\"6\'", printFeet(10.75)));
@@ -200,7 +200,7 @@ unit_test(test_printFeet)
 }
 
 
-unit_test(test_csi)
+unittest(test_csi)
 {
   fprintf(stderr, "%s\n", csi(123456789));
   assertEqual(0, strcmp("123,456,789", csi(123456789)));
