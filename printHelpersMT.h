@@ -25,7 +25,6 @@
 //
 //  PRINT 64 BIT
 //
-
 //  print64 note
 //  buffer size 66 will work for base 2 -36
 //  buffer size 34 will work for base 4 -36
@@ -137,7 +136,7 @@ class print64
 //
 //  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
 //  15 bytes mantissa, sign dot E-xxx
-//  em = exponentMultiple.
+//  em = exponentMultiple  == step size exponent.
 class scieng
 {
   protected:
@@ -180,13 +179,13 @@ class scieng
       }
 
       //  Scale exponent to multiple of em
-      //  TODO: can we remove loop to reduce rounding errors
+      //  loop can be removed by using pow and log however
+      //  in small tests it was not faster or more accurate
       while (value >= e1)
       {
         value *= e2;
         exponent += em;
       }
-      //  TODO: can we remove loop to reduce rounding errors
       while (value < 1 && value != 0.0)
       {
         value *= e1;
@@ -195,7 +194,7 @@ class scieng
 
       //  Round correctly so that print(1.999, 2) prints as "2.00"
       double rounding = 0.5;
-      //  TODO: can we remove loop to reduce rounding errors?
+      //  TODO: can optimize loop to reduce rounding errors?
       //        additional loop that steps per 1000?
       for (uint8_t i = 0; i < decimals; ++i)
       {
@@ -258,18 +257,18 @@ class scieng
 };
 
 
-class sci : public scieng
-{
-  public:
-    sci(double value, uint8_t decimals) : scieng(value, decimals, 1)
-    {}
-};
-
-
 class eng : public scieng
 {
   public:
     eng(double value, uint8_t decimals) : scieng(value, decimals, 3)
+    {}
+};
+
+
+class sci : public scieng
+{
+  public:
+    sci(double value, uint8_t decimals) : scieng(value, decimals, 1)
     {}
 };
 
@@ -286,7 +285,8 @@ class eng : public scieng
 //  so code wise difficult and as it is seldom used, support stops there.
 //
 //  To have some support the code uses lowercase for the next 8 levels
-//  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
+//  treda sorta rinta quexa pepta ocha nena minga luma
+//  (1024 ^13 .... 1024 ^21 (~10^63)
 class toBytes
 {
   protected:
@@ -520,7 +520,7 @@ class toRoman
       }
       if (val > 100000000L)
       {
-        strcat(buffer, "ovf");  //  overflow
+        strcat(buffer, "OVF");  //  overflow
         return;
       }
 
@@ -636,9 +636,9 @@ class printFeet
       }
     #if defined(ESP32)
       //  ESP32 does not support %ld  or ltoa()
-      sprintf(buffer, "%d\"%d\'", ft, inch);
+      sprintf(buffer, "%d\'%d\"", ft, inch);
     #else
-      sprintf(buffer, "%ld\"%d\'", ft, inch);
+      sprintf(buffer, "%ld\'%d\"", ft, inch);
     #endif
       return;
     }
@@ -653,6 +653,9 @@ class printFeet
 //
 //  Comma Separated Integers
 //  Experimental
+//
+//  - merge if possible 64-32  signed-unsigned
+//  - performance (use divmod10?)
 //
 class csi
 {
@@ -736,7 +739,7 @@ class csi
     {
       csi((int32_t) value, separator);
     }
-    
+
     //  UNSIGNED
     csi(uint64_t value, char separator = ',')
     {
@@ -913,7 +916,7 @@ class fraction
         #endif
       }
       return;
-    }   
+    }
     fraction(double value, uint32_t denominator)
     {
       if (isnan(value))
@@ -956,7 +959,7 @@ class fraction
       numerator /= b;
 
       //  produce the string
-      if (whole > 0) 
+      if (whole > 0)
       {
         numerator += whole * denominator;
       }

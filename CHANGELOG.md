@@ -20,10 +20,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update unit tests
 - fix PRINTHELPERS_LIB_VERSION
 - obsolete PRINTHELPERS_VERSION
-- catch error in print64() (buffer too small).
-- catch error in toBytes() (NAN).
-- catch error in printInch() (NEG).
-- catch error in printFeet() (NEG).
+- catch error in print64() (buffer too small)
+- catch error in toBytes() (NAN)
+- catch error in printInch() (NEG)
+- catch error in printFeet() (NEG)
+- fix output of printFeet()
 - add parameter in csi for separator, default ','
 - update readme.md
 - minor edits

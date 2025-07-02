@@ -22,7 +22,6 @@ char __printbuffer[PRINTBUFFERSIZE];
 //
 //  PRINT 64 BIT
 //
-
 //  print64 note
 //  buffer size 66 will work for base 2 -36
 //  buffer size 34 will work for base 4 -36
@@ -37,7 +36,7 @@ char * print64(int64_t value, uint8_t base)
 
   buffer[0] = 0;
   //  small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) 
+  if ((base < 10) && (PRINTBUFFERSIZE <= 66))
   {
     buffer[0] = 'E';  // Error
     buffer[1] = 0;
@@ -101,7 +100,7 @@ char * print64(uint64_t value, uint8_t base)
 
   buffer[0] = 0;
   //  small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) 
+  if ((base < 10) && (PRINTBUFFERSIZE <= 66))
   {
     buffer[0] = 'E';  // Error
     buffer[1] = 0;
@@ -139,10 +138,9 @@ char * print64(uint64_t value, uint8_t base)
 
 ////////////////////////////////////////////////////////////
 //
-//  SCIENTIFIC NOTATIION
+//  Scientific + Engineering notation
 //
-
-//  typical buffer size for 8 byte double is 22 bytes
+//  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
 //  15 bytes mantissa, sign dot E-xxx
 //  em = exponentMultiple == step size exponent.
 char * scieng(double value, uint8_t decimals, uint8_t em)
@@ -276,9 +274,8 @@ size_t sci(Stream &str, double value, uint8_t decimals)
 
 ////////////////////////////////////////////////////////////
 //
-//  toBytes
+//  toBytes()
 //
-
 //  official support to UDA == 1024^12
 //  kilo mega giga tera peta exa (1024^6)
 //  zetta yotta xona weka vunda uda (1024^12)
@@ -287,7 +284,8 @@ size_t sci(Stream &str, double value, uint8_t decimals)
 //  so code wise difficult and as it is seldom used, support stops there.
 //
 //  To have some support the code uses lowercase for the next 8 levels
-//  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^13 ~~ 1024^21)
+//  treda sorta rinta quexa pepta ocha nena minga luma
+//  (1024 ^13 .... 1024 ^21 (~10^63)
 //
 char * toBytes(double value, uint8_t decimals)
 {
@@ -353,9 +351,9 @@ char * toBytes(double value, uint8_t decimals)
 
 ////////////////////////////////////////////////////////////
 //
-//  HEX
+//  hex()
 //
-//  always leading zero's - no prefix - no separator
+//  always leading zero's - no prefix - no separators
 char * hex(uint64_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -395,7 +393,7 @@ char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits
 //
 //  BIN
 //
-//  always leading zero's - no prefix - no separator
+//  always leading zero's - no prefix - no separators
 char * bin(uint64_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -431,11 +429,10 @@ char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits
 
 ////////////////////////////////////////////////////////////
 //
-//  toRoman
+//  toRoman()
 //
-//  extended with 10K units generated with the same but lower case chars.
-//  would expect a special char for 5000?
-//  need investigation.
+//  value should be in range 1..9999
+//  values 10K-100M are experimental in lower case (see readme.md)
 char * toRoman(int32_t value)
 {
   char * buffer     = __printbuffer;
@@ -501,7 +498,7 @@ char * toRoman(int32_t value)
 //
 //  Distances
 //  Experimental
-
+//
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 char * printInch(float inch, uint16_t step)
 {
@@ -555,9 +552,9 @@ char * printFeet(float feet)
   }
 #if defined(ESP32)
   //  ESP32 does not support %ld  or ltoa()
-  sprintf(buffer, "%d\"%d\'", ft, inch);
+  sprintf(buffer, "%d\'%d\"", ft, inch);
 #else
-  sprintf(buffer, "%ld\"%d\'", ft, inch);
+  sprintf(buffer, "%ld\'%d\"", ft, inch);
 #endif
   return buffer;
 }
@@ -568,7 +565,6 @@ char * printFeet(float feet)
 //  Comma Separated Integers
 //  Experimental
 //
-//  TODO
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
 //
@@ -872,7 +868,7 @@ char * fraction(double value, uint32_t denominator)
   numerator /= b;
 
   //  produce the string
-  if (whole > 0) 
+  if (whole > 0)
   {
     numerator += whole * denominator;
   }
@@ -899,6 +895,4 @@ char * fraction(double value, uint32_t denominator)
 
 
 //  -- END OF FILE --
-
-
 
