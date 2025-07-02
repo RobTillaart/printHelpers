@@ -34,7 +34,7 @@
 
 
 #include "Arduino.h"
-#include "printHelpers.h"
+#include "printHelpersMT.h"
 
 
 unittest_setup()
@@ -45,12 +45,6 @@ unittest_setup()
 
 unittest_teardown()
 {
-}
-
-
-unittest(test_constants)
-{
-  assertEqual(PRINTBUFFERSIZE, 66);
 }
 
 
@@ -168,7 +162,7 @@ unittest(test_toRoman_extended)
   assertEqual(0, strcmp("-OVF", toRoman(-100000001L)) );
   //  negative
   assertEqual(0, strcmp("-MCCXXXIV", toRoman(-1234)));
-  
+
   //  large
   assertEqual(0, strcmp("cxxiiiMMMMDLXVII", toRoman(1234567)));
 }
