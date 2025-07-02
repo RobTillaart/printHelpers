@@ -191,10 +191,10 @@ unittest(test_printInch)
 unittest(test_printFeet)
 {
   fprintf(stderr, "%s\n", printFeet(10.75));
-  assertEqual(0, strcmp("10\"9\'", printFeet(10.75)));
+  assertEqual(0, strcmp("10\'9\"", printFeet(10.75)));
 
   fprintf(stderr, "%s\n", printFeet(0));
-  assertEqual(0, strcmp("0\"0\'", printFeet(0)));
+  assertEqual(0, strcmp("0\'0\"", printFeet(0)));
 
   //  negative numbers not supported.
   fprintf(stderr, "%s\n", printFeet(-5.43));
