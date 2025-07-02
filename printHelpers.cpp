@@ -506,6 +506,12 @@ char * toRoman(int32_t value)
 char * printInch(float inch, uint16_t step)
 {
   char * buffer = __printbuffer;
+  if (inch < 0)
+  {
+    //  cannot handle negative numbers.
+    strcpy(buffer, "E-NEG");
+    return buffer;
+  }
   uint32_t whole = inch;
   uint8_t num = round((inch - whole) * step);
   if (num == step)
@@ -534,6 +540,12 @@ char * printInch(float inch, uint16_t step)
 char * printFeet(float feet)
 {
   char * buffer = __printbuffer;
+  if (feet < 0)
+  {
+    //  cannot handle negative numbers.
+    strcpy(buffer, "E-NEG");
+    return buffer;
+  }
   uint32_t ft = feet;
   uint8_t inch = round((feet - ft) * 12);
   if (inch == 12)

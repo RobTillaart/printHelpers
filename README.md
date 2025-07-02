@@ -246,7 +246,8 @@ Since 0.4.6 negative numbers will have a - sign in front.
 
 ### Distance feet inch
 
-Experimental 0.4.1
+Note that both inch and feet should be positive or zero.
+A negative value will return an error.
 
 - **char \* printInch(float inch, uint16_t step = 16)** prints a float inch distance default in sixteenth ```a b/16```.
 The parameter step must be a power of 2 == 2, 4, 8, 16, 32, 64, 128.

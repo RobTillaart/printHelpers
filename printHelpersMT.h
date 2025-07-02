@@ -577,6 +577,12 @@ class printInch
   public:
     printInch(float inch, uint16_t step = 16)
     {
+      if (inch < 0)
+      {
+        //  cannot handle negative numbers.
+        strcpy(buffer, "E-NEG");
+        return;
+      }
       uint32_t whole = inch;
       uint8_t num = round((inch - whole) * step);
       if (num == step)
@@ -615,6 +621,12 @@ class printFeet
   public:
     printFeet(float feet)
     {
+       if (feet < 0)
+      {
+        //  cannot handle negative numbers.
+        strcpy(buffer, "E-NEG");
+        return;
+      }
       uint32_t ft = feet;
       uint8_t inch = round((feet - ft) * 12);
       if (inch == 12)

@@ -182,8 +182,9 @@ unittest(test_printInch)
   fprintf(stderr, "%s\n", printInch(0));
   assertEqual(0, strcmp("0 0/16", printInch(0)));
 
+  //  negative numbers not supported.
   fprintf(stderr, "%s\n", printInch(-5.43));
-  assertEqual(0, strcmp("-5 7/16", printInch(-5.43)));
+  assertEqual(0, strcmp("E-NEG", printInch(-5.43)));
 }
 
 
@@ -195,8 +196,9 @@ unittest(test_printFeet)
   fprintf(stderr, "%s\n", printFeet(0));
   assertEqual(0, strcmp("0\"0\'", printFeet(0)));
 
+  //  negative numbers not supported.
   fprintf(stderr, "%s\n", printFeet(-5.43));
-  assertEqual(0, strcmp("-5\"5\'", printFeet(-5.43)));
+  assertEqual(0, strcmp("E-NEG", printFeet(-5.43)));
 }
 
 
