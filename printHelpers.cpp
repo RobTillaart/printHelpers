@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.7
+// VERSION: 0.5.0
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -560,25 +560,26 @@ char * printFeet(float feet)
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
 //
-char * csi(int64_t value)
+char * csi(int64_t value, char separator)
 {
   char * buffer = __printbuffer;
+  int64_t val = value;
   int index = 0;
-  bool negative = (value < 0);
+  bool negative = (val < 0);
   if (negative)
   {
-    value = -value;
+    val = -val;
   }
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   if (negative)
@@ -595,25 +596,26 @@ char * csi(int64_t value)
   return buffer;
 }
 
-char * csi(int32_t value)
+char * csi(int32_t value, char separator)
 {
+  int32_t val = value;
   char * buffer = __printbuffer;
   int index = 0;
-  bool negative = (value < 0);
+  bool negative = (val < 0);
   if (negative)
   {
-    value = -value;
+    val = -val;
   }
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   if (negative)
@@ -630,31 +632,32 @@ char * csi(int32_t value)
   return buffer;
 }
 
-char * csi(int16_t value)
+char * csi(int16_t value, char separator)
 {
-  return csi((int32_t)value);
+  return csi((int32_t)value, separator);
 }
 
-char * csi(int8_t value)
+char * csi(int8_t value, char separator)
 {
-  return csi((int32_t)value);
+  return csi((int32_t)value, separator);
 }
 
 
-char * csi(uint64_t value)
+char * csi(uint64_t value, char separator)
 {
   char * buffer = __printbuffer;
+  uint64_t val = value;
   int index = 0;
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   buffer[index--] = 0;
@@ -667,20 +670,21 @@ char * csi(uint64_t value)
   return buffer;
 }
 
-char * csi(uint32_t value)
+char * csi(uint32_t value, char separator)
 {
   char * buffer = __printbuffer;
+  uint64_t val = value;
   int index = 0;
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   buffer[index--] = 0;
@@ -693,14 +697,14 @@ char * csi(uint32_t value)
   return buffer;
 }
 
-char * csi(uint16_t value)
+char * csi(uint16_t value, char separator)
 {
-  return csi((uint32_t)value);
+  return csi((uint32_t)value, separator);
 }
 
-char * csi(uint8_t value)
+char * csi(uint8_t value, char separator)
 {
-  return csi((uint32_t)value);
+  return csi((uint32_t)value, separator);
 }
 
 
@@ -813,7 +817,7 @@ char * fraction(double value)
 }
 
 
-char * fraction(double value, uint32_t denum)
+char * fraction(double value, uint32_t denominator)
 {
   static char buffer[20];
   if (isnan(value))
@@ -841,10 +845,10 @@ char * fraction(double value, uint32_t denum)
     value -= whole;
   }
 
-  uint32_t num = round(value * denum);
+  uint32_t numerator = round(value * denominator);
   //  find GCD
-  uint32_t a = num;
-  uint32_t b = denum;
+  uint32_t a = numerator;
+  uint32_t b = denominator;
   while ( a != 0 )
   {
     uint32_t c = a;
@@ -852,27 +856,30 @@ char * fraction(double value, uint32_t denum)
     b = c;
   }
   //  simplify
-  denum /= b;
-  num /= b;
+  denominator /= b;
+  numerator /= b;
 
   //  produce the string
-  if (whole > 0) num += whole * denum;
+  if (whole > 0) 
+  {
+    numerator += whole * denominator;
+  }
   if (negative)
   {
     #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d/%d", num, denum);
+    sprintf(buffer, "-%d/%d", numerator, denominator);
     #else
-    sprintf(buffer, "-%ld/%ld", num, denum);
+    sprintf(buffer, "-%ld/%ld", numerator, denominator);
     #endif
   }
   else
   {
     #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "%d/%d", num, denum);
+    sprintf(buffer, "%d/%d", numerator, denominator);
     #else
-    sprintf(buffer, "%ld/%ld", num, denum);
+    sprintf(buffer, "%ld/%ld", numerator, denominator);
     #endif
   }
   return buffer;

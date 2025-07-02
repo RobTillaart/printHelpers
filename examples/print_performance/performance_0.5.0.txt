@@ -3,7 +3,7 @@ Arduino UNO R3
 IDE 1.8.19
 
 print_performance.ino
-PRINTHELPERS_LIB_VERSION: 0.4.7
+PRINTHELPERS_LIB_VERSION: 0.5.0
 
 4
 4

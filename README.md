@@ -51,7 +51,10 @@ Not all functionality is converted yet.
 ### Related
 
 - https://github.com/RobTillaart/Fraction
-- https://github.com/RobTillaart/lineFormatter (for tabular formatting)
+- https://github.com/RobTillaart/lineFormatter for tabular formatting.
+- https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
+- https://github.com/RobTillaart/PrintSize counts length of a number of print commands. (right alignment)
+- https://github.com/RobTillaart/PrintString captures data in a String.
 
 
 ## Interface
@@ -258,27 +261,28 @@ Experimental 0.4.3
 
 When you are working with large numbers, more than lets say 6 digits.
 With these numbers it is often difficult to see if it is 2 million something or 20 million something.
-A proven way to solve this is to print those large numbers in groups of 3 digits separated by comma's.
-This improves the readability a lot and yes the price is more room needed on a display.
+A proven way to solve this is to print those large numbers in (fixed) groups of 3 digits separated by comma's.
+This improves the readability a lot, and yes, the price is more room needed on a display.
 The comma is chosen as it is default thousands separator in Excel.
 
-In the first version the separator is hardcoded a ",", in future it might be configurable.
 This new printHelper function can work with both signed and unsigned up to 64 bit numbers.
 Like all printHelper functions it uses a shared print buffer to keep memory usage low.
 
-Example 192837465 becomes 192,837,465.
+Example **csi(192837465)** becomes "192,837,465".
+
+Since 0.5.0 one can set the separator e.g. to underscore or a point.
 
 signed
-- **char \* csi(int64_t n)**
-- **char \* csi(int32_t n)**
-- **char \* csi(int16_t n)**
-- **char \* csi(int8_t n)**
+- **char \* csi(int64_t value, char separator = ',')**
+- **char \* csi(int32_t value, char separator = ',')**
+- **char \* csi(int16_t value, char separator = ',')**
+- **char \* csi(int8_t value, char separator = ',')**
 
 unsigned
-- **char \* csi(uint64_t n)**
-- **char \* csi(uint32_t n)**
-- **char \* csi(uint16_t n)**
-- **char \* csi(uint8_t n)**
+- **char \* csi(uint64_t value, char separator = ',')**
+- **char \* csi(uint32_t value, char separator = ',')**
+- **char \* csi(uint16_t value, char separator = ',')**
+- **char \* csi(uint8_t value, char separator = ',')**
 
 
 ### Fraction
@@ -297,7 +301,7 @@ fraction
 Time is not constant, e.g. **fraction(PI)** takes about 620 us on an Arduino UNO 16 MHz.
 
 - **char \* fraction(double value)** approach the value with a fraction like n / d.
-- **char \* fraction(double value, uint16_t denom)** choose the denominator.
+- **char \* fraction(double value, uint16_t denominator)** choose the denominator.
 Note it will be reduced if possible e.g. 6/8 => 3/4
 
 If you have a faster or more accurate algorithm or both please let me know
@@ -336,12 +340,17 @@ When functions are added, the recommended minimum size might increase.
 
 ## Interface printHelpersMT.h
 
+**EXPERIMENTAL**
+
 This MT ( == MultiThreading) version of the library implements classes for the printHelper functions.
 These are short living classes that do not share a buffer, so they should be thread safe.
 
-Not all functions are ported yet, the description is identical to functions above.
+Warning: the internal char buffer does not exist any more when the objects go out of scope.
 
-TODO: Needs testing / verification e.g. in RTOS.
+The description is identical to functions above, however there might be unknown behaviour 
+details that differ. So use with care.
+
+TODO: Needs more testing / verification e.g. in RTOS.
 
 ```cpp
 #include "printHelpersMT.h"
@@ -382,16 +391,21 @@ TODO: Needs testing / verification e.g. in RTOS.
 - **printInch(float inch, uint16_t step = 16)**
 - **printFeet(float feet)**
 
-
 ### Comma Separated Integer
 
-TODO
+- **csi(int64_t value, char separator = ',')**
+- **csi(int32_t value, char separator = ',')**
+- **csi(int16_t value, char separator = ',')**
+- **csi(int8_t value, char separator = ',')**
+- **csi(uint64_t value, char separator = ',')**
+- **csi(uint32_t value, char separator = ',')**
+- **csi(uint16_t value, char separator = ',')**
+- **csi(uint8_t value, char separator = ',')**
 
 ### Fraction
 
-TODO
-
-
+- **fraction(double value)**
+- **fraction(double value, uint32_t denominator)**
 
 ## Future
 
@@ -425,8 +439,10 @@ TODO
 
 #### Wont
 
-- is there need for Scientific or Engineering integers (this just works)
+- is there need for Scientific or Engineering integers?
+  - this just works! (OK some loss of precision.
 - add **oct()** along BIN, HEX
+  - rarely used.
 - add **float()** as Arduino limits floats to "MAXLONG" by code.
   - use dtostrf() - is that portable?
   - use sci() or eng()
@@ -439,7 +455,8 @@ TODO
   - **sci()** and **eng()**.
   - investigate sci() version based upon use of log()
   - done => see examples.
-
+- investigate group size in csi() ?
+  - not or very very rarely needed
 
 ## Support
 

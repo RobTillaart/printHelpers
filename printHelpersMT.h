@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.4.7"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.0"))
 #endif
 
 
@@ -642,24 +642,152 @@ class printFeet
 //  Comma Separated Integers
 //  Experimental
 //
-
-/*
-class toBytes
+class csi
 {
   protected:
     char buffer[24];
 
   public:
-    toBytes(double value, uint8_t decimals)
+    csi(int64_t value, char separator = ',')
     {
-
+      int64_t val = value;
+      int index = 0;
+      bool negative = (val < 0);
+      if (negative)
+      {
+        val = -val;
+      }
+      int threeCount = 0;
+      while (val > 0)
+      {
+        buffer[index++] = '0' +  val % 10;
+        val /= 10;
+        threeCount++;
+        if ((threeCount == 3) && (val > 0))
+        {
+          threeCount = 0;
+          buffer[index++] = separator;
+        }
+      }
+      if (negative)
+      {
+        buffer[index++] = '-';
+      }
+      buffer[index--] = 0;
+      for (int i = 0, j = index; i < j; i++, j--)
+      {
+        char t = buffer[j];
+        buffer[j] = buffer[i];
+        buffer[i] = t;
+      }
+      return;
     }
-
+    csi(int32_t value, char separator = ',')
+    {
+      int32_t val = value;
+      int index = 0;
+      bool negative = (val < 0);
+      if (negative)
+      {
+        val = -val;
+      }
+      int threeCount = 0;
+      while (val > 0)
+      {
+        buffer[index++] = '0' +  val % 10;
+        val /= 10;
+        threeCount++;
+        if ((threeCount == 3) && (val > 0))
+        {
+          threeCount = 0;
+          buffer[index++] = separator;
+        }
+      }
+      if (negative)
+      {
+        buffer[index++] = '-';
+      }
+      buffer[index--] = 0;
+      for (int i = 0, j = index; i < j; i++, j--)
+      {
+        char t = buffer[j];
+        buffer[j] = buffer[i];
+        buffer[i] = t;
+      }
+      return;
+    }
+    csi(int16_t value, char separator = ',')
+    {
+      csi((int32_t) value, separator);
+    }
+    csi(int8_t value, char separator = ',')
+    {
+      csi((int32_t) value, separator);
+    }
+    
+    //  UNSIGNED
+    csi(uint64_t value, char separator = ',')
+    {
+      uint64_t val = value;
+      int index = 0;
+      int threeCount = 0;
+      while (val > 0)
+      {
+        buffer[index++] = '0' +  val % 10;
+        val /= 10;
+        threeCount++;
+        if ((threeCount == 3) && (val > 0))
+        {
+          threeCount = 0;
+          buffer[index++] = separator;
+        }
+      }
+      buffer[index--] = 0;
+      for (int i = 0, j = index; i < j; i++, j--)
+      {
+        char t = buffer[j];
+        buffer[j] = buffer[i];
+        buffer[i] = t;
+      }
+      return;
+    }
+    csi(uint32_t value, char separator = ',')
+    {
+      uint32_t val = value;
+      int index = 0;
+      int threeCount = 0;
+      while (val > 0)
+      {
+        buffer[index++] = '0' +  val % 10;
+        val /= 10;
+        threeCount++;
+        if ((threeCount == 3) && (val > 0))
+        {
+          threeCount = 0;
+          buffer[index++] = separator;
+        }
+      }
+      buffer[index--] = 0;
+      for (int i = 0, j = index; i < j; i++, j--)
+      {
+        char t = buffer[j];
+        buffer[j] = buffer[i];
+        buffer[i] = t;
+      }
+      return;
+    }
+    csi(uint16_t value, char separator = ',')
+    {
+      csi((uint32_t) value, separator);
+    }
+    csi(uint8_t value, char separator = ',')
+    {
+      csi((uint32_t) value, separator);
+    }
     inline operator char *() __attribute__((always_inline)) {
       return buffer;
     }
 };
-*/
 
 
 ////////////////////////////////////////////////////////////
@@ -668,24 +796,184 @@ class toBytes
 //  Experimental
 //  Based upon Fraction library -> fractionize()
 //
-
-/*
-class toBytes
+class fraction
 {
   protected:
     char buffer[24];
 
   public:
-    toBytes(double value, uint8_t decimals)
+    fraction(double value)
     {
+      if (isnan(value))
+      {
+        strcpy(buffer, "nan");
+        return;
+      }
+      if (isinf(value))
+      {
+        if (value < 0) strcpy(buffer, "-inf");
+        strcpy(buffer, "inf");
+        return;
+      }
+      bool negative = false;
+      if (value < 0)
+      {
+        negative = true;
+        value = -value;
+      }
 
+      float whole = 0;
+      if (value > 1)
+      {
+        whole = (uint32_t)value;
+        value -= whole;
+      }
+
+      //  find nearest fraction
+      float Precision = 0.000001;
+
+      //  low = (0,1), high = (1,1)
+      int32_t lowN = 0;
+      int32_t lowD = 1;
+      int32_t highN = 1;
+      int32_t highD = 1;
+
+      //  max 100 iterations
+      for (int i = 0; i < 100; ++i)
+      {
+        float testLow = lowD * value - lowN;
+        float testHigh = highN - highD * value;
+        if (testHigh < Precision * highD)
+          break;  //  high is answer
+
+        if (testLow < Precision * lowD)
+        { //  low is answer
+          highD = lowD;
+          highN = lowN;
+          break;
+        }
+        if (i & 1)
+        { //  odd step: add multiple of low to high
+          float test = testHigh / testLow;
+          int32_t count = (int32_t)test;    //  "N"
+          int32_t n = (count + 1) * lowN + highN;
+          int32_t d = (count + 1) * lowD + highD;
+          if ((n > 0x8000) || (d > 0x10000))   //   0x8000 0x10000
+            break;
+          highN = n - lowN;
+          highD = d - lowD;
+          lowN = n;
+          lowD = d;
+        }
+        else
+        { //  even step: add multiple of high to low
+          float test = testLow / testHigh;
+          int32_t count = (int32_t)test;     //  "N"
+          int32_t n = lowN + (count + 1) * highN;
+          int32_t d = lowD + (count + 1) * highD;
+          if ((n > 0x10000) || (d > 0x10000))   //   0x10000 0x10000
+            break;
+          lowN = n - highN;
+          lowD = d - highD;
+          highN = n;
+          highD = d;
+        }
+      }
+
+      //  produce the string
+      if (whole > 0) highN += whole * highD;
+      if (negative)
+      {
+        #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "-%d/%d", highN, highD);
+        #else
+        sprintf(buffer, "-%ld/%ld", highN, highD);
+        #endif
+      }
+      else
+      {
+        #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "%d/%d", highN, highD);
+        #else
+        sprintf(buffer, "%ld/%ld", highN, highD);
+        #endif
+      }
+      return;
+    }   
+    fraction(double value, uint32_t denominator)
+    {
+      if (isnan(value))
+      {
+        strcpy(buffer, "nan");
+        return;
+      }
+      if (isinf(value))
+      {
+        if (value < 0) strcpy(buffer, "-inf");
+        strcpy(buffer, "inf");
+        return;
+      }
+      bool negative = false;
+      if (value < 0)
+      {
+        negative = true;
+        value = -value;
+      }
+
+      float whole = 0;
+      if (value > 1)
+      {
+        whole = (uint32_t)value;
+        value -= whole;
+      }
+
+      uint32_t numerator = round(value * denominator);
+      //  find GCD
+      uint32_t a = numerator;
+      uint32_t b = denominator;
+      while ( a != 0 )
+      {
+        uint32_t c = a;
+        a = b % a;
+        b = c;
+      }
+      //  simplify
+      denominator /= b;
+      numerator /= b;
+
+      //  produce the string
+      if (whole > 0) 
+      {
+        numerator += whole * denominator;
+      }
+      if (negative)
+      {
+        #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "-%d/%d", numerator, denominator);
+        #else
+        sprintf(buffer, "-%ld/%ld", numerator, denominator);
+        #endif
+      }
+      else
+      {
+        #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "%d/%d", numerator, denominator);
+        #else
+        sprintf(buffer, "%ld/%ld", numerator, denominator);
+        #endif
+      }
+      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
       return buffer;
     }
 };
-*/
+
 
 //  -- END OF FILE --
 

@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.7
+// VERSION: 0.5.0
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -13,10 +13,8 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.4.7"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.0"))
 #endif
-//  PRINTHELPERS_VERSION is obsolete in future 
-//  #define PRINTHELPERS_VERSION      (F("0.4.7"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -126,14 +124,14 @@ char * printFeet(float feet);
 //  Comma Separated Integers
 //  Experimental
 //
-char * csi(int64_t n);
-char * csi(int32_t n);
-char * csi(int16_t n);
-char * csi(int8_t n);
-char * csi(uint64_t n);
-char * csi(uint32_t n);
-char * csi(uint16_t n);
-char * csi(uint8_t n);
+char * csi(int64_t value, char separator = ',');
+char * csi(int32_t value, char separator = ',');
+char * csi(int16_t value, char separator = ',');
+char * csi(int8_t value, char separator = ',');
+char * csi(uint64_t value, char separator = ',');
+char * csi(uint32_t value, char separator = ',');
+char * csi(uint16_t value, char separator = ',');
+char * csi(uint8_t value, char separator = ',');
 
 
 ////////////////////////////////////////////////////////////
