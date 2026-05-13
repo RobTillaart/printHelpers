@@ -93,7 +93,8 @@ The thread safe version is minimally tested, feedback is welcome.
 
 ### Related
 
-- https://github.com/RobTillaart/Currency formats currency layout 
+- https://github.com/RobTillaart/Currency formats currency layout
+- https://github.com/RobTillaart/dateTimeHelpers date/time layout
 - https://github.com/RobTillaart/Fraction
 - https://github.com/RobTillaart/lineFormatter for tabular formatting.
 - https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
@@ -171,6 +172,8 @@ Note: if the parameter **exponentMultiple** is set to zero,
 the function **scieng()** will print e.g. x.xxxxxE+00, with the exponent set to zero.
 Although this is technically a bug it could be a feature for someone.
 So I decided to leave this behaviour in the code.
+
+Note: **scieng()** checks for, and can return "nan", "-inf" and "inf".
 
 
 ### toBytes()

@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -168,7 +168,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    strcpy(buffer, "inf");
+    else strcpy(buffer, "inf");
     return buffer;
   }
 
@@ -211,7 +211,6 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   //  Split whole part and remainder
   uint32_t d = (uint32_t)value;
   double remainder = value - d;
-
 
   //  print whole part
 #if defined(ESP32)
