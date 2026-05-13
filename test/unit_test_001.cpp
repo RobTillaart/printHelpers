@@ -72,7 +72,7 @@ unittest(test_sci)
   f = -1.0 / 0.0;
   assertEqual(0, strcmp("-inf", sci(f, 4)) );
   f = 0.0 / 0.0;
-  assertEqual(0, strcmp("-nan", sci(f, 4)) );
+  assertEqual(0, strcmp("nan", sci(f, 4)) );
 }
 
 
