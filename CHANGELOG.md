@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.5.2] - 2026-05-13
 - fix #30, handling infinity (also in printHelpersMT.h)
 - add infinity + nan test in build-CI
+- add print_double_test.ino to find max and min double.
 - minor edits
 
 ## [0.5.1] - 2025-12-29
@@ -127,4 +128,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0] -  2018-01-21
 - initial version
 
+----
+
+## [0.0.0] - 2013-05-12
+
+https://forum.arduino.cc/t/proposed-update-for-the-printfloat-code-of-print-cpp/162240
 

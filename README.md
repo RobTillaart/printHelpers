@@ -102,6 +102,9 @@ The thread safe version is minimally tested, feedback is welcome.
 - https://github.com/RobTillaart/PrintString captures data in a String.
 - https://en.wikipedia.org/wiki/Metric_prefix
 
+Where it started ...
+- https://forum.arduino.cc/t/proposed-update-for-the-printfloat-code-of-print-cpp/162240
+
 
 ## Interface printHelpers.h
 

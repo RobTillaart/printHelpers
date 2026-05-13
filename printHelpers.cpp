@@ -142,7 +142,7 @@ char * print64(uint64_t value, uint8_t base)
 //
 //  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
 //  15 bytes mantissa, sign dot E-xxx
-//  em = exponentMultiple == step size exponent.
+//  em = exponentMultiple == step size exponent (typical 1 or 3)
 char * scieng(double value, uint8_t decimals, uint8_t em)
 {
   char *  buffer   = __printbuffer;
@@ -187,7 +187,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
     value *= e2;
     exponent += em;
   }
-  while (value < 1 && value != 0.0)
+  while ((value < 1) && (value != 0.0))
   {
     value *= e1;
     exponent -= em;
@@ -219,6 +219,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 #else
   sprintf(&buffer[pos], "%ld", d);
 #endif
+  //  how far is the buffer filled?
   pos = strlen(buffer);
 
 
