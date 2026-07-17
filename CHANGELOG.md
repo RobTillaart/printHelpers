@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add hexDumpLine8() and hexDumpLine16() - (experimental)
 - add examples
 - update readme.md
+- adjust build-CI
 - minor edits
 
 ## [0.5.2] - 2026-05-13
