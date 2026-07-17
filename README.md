@@ -98,9 +98,9 @@ See issue #32.
 When a printf() or similar call is made and a printHelper is called twice or more, 
 the shared internal buffer will be overwritten. 
 To solve this the **printHelpersMT.h** version must be used as
-this does not share the internal buffer.
+this does not have a shared internal buffer.
 
-As the **printHelpersMT.h** version does not work with printf(),
+However the **printHelpersMT.h** version does not work well with printf(),
 there is a warning - type mismatch - so an explicit cast is needed.
 
 ```
