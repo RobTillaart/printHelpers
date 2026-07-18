@@ -8,6 +8,7 @@
 
 #include "printHelpersMT.h"
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -33,7 +34,7 @@ void setup()
 
   char bigBuf[200];
 
-  sprintf(bigBuf, "%s\n", (char *) print64(a));
+  sprintf(bigBuf, "%s\n", (char *)print64(a));
   Serial.print(bigBuf);
 
   sprintf(bigBuf, "%s %s\n", (char *)print64(a), (char *)print64(b));
