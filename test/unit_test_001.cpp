@@ -66,6 +66,8 @@ unittest(test_sci)
 
   assertEqual(0, strcmp("3.141593E+01", sci(PI * 10, 6)) );
   assertEqual(0, strcmp("2.718282E+01", sci(EULER * 10, 6)) );
+  assertEqual(0, strcmp("-3.141593E+01", sci(-PI * 10, 6)) );
+  assertEqual(0, strcmp("-2.718282E+01", sci(-EULER * 10, 6)) );
 
   float f = 1.0 / 0.0;
   assertEqual(0, strcmp("inf", sci(f, 4)) );
@@ -105,10 +107,10 @@ unittest(test_eng_right_align)
   fprintf(stderr, "%s\n", eng(-value, 3, true));
   fprintf(stderr, "\n");
 
-  assertEqual(0, strcmp("1.234E+03", eng(value, 3, false) );
-  assertEqual(0, strcmp("  1.234E+03", eng(value, 3, true) );
-  assertEqual(0, strcmp("-1.234E+03", eng(-value, 3, false) );
-  assertEqual(0, strcmp("  -1.234E+03", eng(-value, 3, true) );
+  assertEqual(0, strcmp("1.234E+03", eng(value, 3, false) ));
+  assertEqual(0, strcmp("  1.234E+03", eng(value, 3, true) ));
+  assertEqual(0, strcmp("-1.234E+03", eng(-value, 3, false) ));
+  assertEqual(0, strcmp("  -1.234E+03", eng(-value, 3, true) ));
 }
 
 
