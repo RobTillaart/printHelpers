@@ -94,6 +94,24 @@ unittest(test_eng)
 }
 
 
+unittest(test_eng_right_align)
+{
+  int32_t value = 1.2345678;
+
+  fprintf(stderr, "VALUE = %d\n", value);
+  fprintf(stderr, "%s\n", eng(value, 3, false));
+  fprintf(stderr, "%s\n", eng(value, 3, true));
+  fprintf(stderr, "%s\n", eng(-value, 3, false));
+  fprintf(stderr, "%s\n", eng(-value, 3, true));
+  fprintf(stderr, "\n");
+
+  assertEqual(0, strcmp("1.234E+03", eng(value, 3, false) );
+  assertEqual(0, strcmp("  1.234E+03", eng(value, 3, true) );
+  assertEqual(0, strcmp("-1.234E+03", eng(-value, 3, false) );
+  assertEqual(0, strcmp("  -1.234E+03", eng(-value, 3, true) );
+}
+
+
 unittest(test_print64)
 {
   int64_t value64 = 1ULL << 35;
