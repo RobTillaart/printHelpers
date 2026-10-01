@@ -503,12 +503,15 @@ This version needs more testing / verification e.g. in RTOS.
 
 - **toBytes(double value, uint8_t decimals = 2)**
 
-### hex() bin()
+### hex()
 
 - **hex(uint64_t value, uint8_t digits = 16)**
 - **hex(uint32_t value, uint8_t digits = 8)**
 - **hex(uint16_t value, uint8_t digits = 4)**
 - **hex(uint8_t value, uint8_t digits = 2)**
+
+### bin()
+
 - **bin(uint64_t value, uint8_t digits = 64)**
 - **bin(uint32_t value, uint8_t digits = 32)**
 - **bin(uint16_t value, uint8_t digits = 16)**
@@ -555,6 +558,8 @@ This version needs more testing / verification e.g. in RTOS.
 #### Should
 
 - test and verify printHelpersMT
+- implement missing helpers in printHelpersMT
+  - hexDumpLine8/16
 - implement printHelpersMT.h unit tests
   - rewrite of current needed
 - improve readability of the code
@@ -564,31 +569,33 @@ This version needs more testing / verification e.g. in RTOS.
 #### Could
 
 - investigate **dec(value, digits)** to have leading spaces.
-- investigate **bin(float)** to dump floats?
-  - "sign, mantissa, exponent bits"
-  - like this "s0 m0111010 e100010" (right length)
 - investigate separators in **hex()**
   - space per 8, 4 or 2
 - optimize **char \* hex(uint8_t / uint16_t ...)**
-- **base64** representation
+- investigate **base64** representation
   - base64(float)
   - base64(double)
   - base64(any type) 
   - type debase64(type, string);
-  - needs investigation
-- implement **roman2integer()**?
-- hexDumpLine features
+- investigate **hexDumpLine()** features
   - add XOR checksum per line
   - make address optional.
   - split in 2 functions - array as HEX, array as TEXT
     and make hexDumpLine a wrapper.
   - column ADDRESS only 4 positions 0x0000..0xFFFF
-- **printInch()**, **printFeet()** are float, other double
-  - align to double only? accuracy?
+- **printInch()**, **printFeet()** are float
+  - align to double only? 
+  - accuracy decimals?  whole part is 4e9 max.
 
 
-#### Wont
+#### Wont (unless)
 
+- implement **roman2integer()**?
+- investigate **bin(float)** to dump floats?
+  - "sign, mantissa, exponent bits"
+  - like this "s0 m0111010 e100010" (right length)
+  - **bin(double)** too?
+  - more debugging tools IEEE754 helpers
 - is there need for Scientific or Engineering integers?
   - this just works! (OK some loss of precision.
 - add **oct()** along BIN, HEX

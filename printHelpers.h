@@ -124,7 +124,6 @@ char * toRoman(int32_t value);
 ////////////////////////////////////////////////////////////
 //
 //  Distances
-//  Experimental
 //
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 char * printInch(float inch, uint16_t step = 16);
@@ -134,7 +133,6 @@ char * printFeet(float feet);
 ////////////////////////////////////////////////////////////
 //
 //  Comma Separated Integers
-//  Experimental
 //
 char * csi(int64_t value, char separator = ',');
 char * csi(int32_t value, char separator = ',');
@@ -149,7 +147,7 @@ char * csi(uint8_t  value, char separator = ',');
 ////////////////////////////////////////////////////////////
 //
 //  Fraction
-//  Experimental
+//
 //  Based upon Fraction library -> fractionize()
 //
 char * fraction(double value);
@@ -159,7 +157,7 @@ char * fraction(double value, uint32_t denom);
 ////////////////////////////////////////////////////////////
 //
 //  Units
-//  Experimental
+//
 //  adds unit postfix instead of e+xx numbers
 //  uses scieng() under the hood
 //

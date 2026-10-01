@@ -268,10 +268,15 @@ class eng : public scieng
        : scieng(value, decimals, 3)
     {
       if (rightAlign == false) return;
-      //  right align, adding 0,1 or 2 spaces
+      //  right align, adding 0, 1 or 2 spaces
       uint8_t len = strlen(buffer);
       //  spaces = length - len;
       uint8_t spaces = 7 - len;
+      if ((buffer[0] == '-') || (buffer[0] == '+'))
+      {
+        spaces++;  //  include sign bit
+      }
+
       if (decimals > 0) spaces += (decimals + 1);
       if (spaces)
       {
@@ -325,7 +330,8 @@ class toBytes
       }
       if (isinf(value))
       {
-        strcpy(buffer, "inf");
+        if (value < 0) strcpy(buffer, "-inf");
+        strcpy(buffer, "+inf");
         return;
       }
 
@@ -399,6 +405,7 @@ class hex
         buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
       }
     }
+
     hex(uint32_t value, uint8_t digits = 8)
     {
       uint32_t val = value;
@@ -411,6 +418,7 @@ class hex
         buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
       }
     }
+
     hex(uint16_t value, uint8_t digits = 4)
     {
       uint16_t val = value;
@@ -423,6 +431,7 @@ class hex
         buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
       }
     }
+
     hex(uint8_t value, uint8_t digits = 2)
     {
       uint8_t val = value;
@@ -465,6 +474,7 @@ class bin
         val >>= 1;
       }
     }
+
     bin(uint32_t value, uint8_t digits = 32)
     {
       uint32_t val = value;
@@ -476,6 +486,7 @@ class bin
         val >>= 1;
       }
     }
+
     bin(uint16_t value, uint8_t digits = 16)
     {
       uint16_t val = value;
@@ -487,6 +498,7 @@ class bin
         val >>= 1;
       }
     }
+
     bin(uint8_t value, uint8_t digits = 8)
     {
       uint8_t val = value;
@@ -584,7 +596,6 @@ class toRoman
 ////////////////////////////////////////////////////////////
 //
 //  Distances
-//  Experimental
 //
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 class printInch
@@ -658,12 +669,25 @@ class printFeet
         ft++;
         inch = 0;
       }
-    #if defined(ESP32)
-      //  ESP32 does not support %ld  or ltoa()
-      sprintf(buffer, "%d\'%d\"", ft, inch);
-    #else
-      sprintf(buffer, "%ld\'%d\"", ft, inch);
-    #endif
+
+      if (neg)
+      {
+ #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "-%d\'%d\"", ft, inch);
+#else
+        sprintf(buffer, "-%ld\'%d\"", ft, inch);
+#endif
+      }
+      else
+      {
+ #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "%d\'%d\"", ft, inch);
+#else
+        sprintf(buffer, "%ld\'%d\"", ft, inch);
+#endif
+      }
       return;
     }
 
@@ -676,7 +700,6 @@ class printFeet
 ////////////////////////////////////////////////////////////
 //
 //  Comma Separated Integers
-//  Experimental
 //
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
@@ -721,6 +744,7 @@ class csi
       }
       return;
     }
+
     csi(int32_t value, char separator = ',')
     {
       int32_t val = value;
@@ -755,14 +779,17 @@ class csi
       }
       return;
     }
+
     csi(int16_t value, char separator = ',')
     {
       csi((int32_t) value, separator);
     }
+
     csi(int8_t value, char separator = ',')
     {
       csi((int32_t) value, separator);
     }
+
 
     //  UNSIGNED
     csi(uint64_t value, char separator = ',')
@@ -790,6 +817,7 @@ class csi
       }
       return;
     }
+
     csi(uint32_t value, char separator = ',')
     {
       uint32_t val = value;
@@ -815,14 +843,17 @@ class csi
       }
       return;
     }
+
     csi(uint16_t value, char separator = ',')
     {
       csi((uint32_t) value, separator);
     }
+
     csi(uint8_t value, char separator = ',')
     {
       csi((uint32_t) value, separator);
     }
+
     inline operator char *() __attribute__((always_inline)) {
       return buffer;
     }
@@ -832,7 +863,7 @@ class csi
 ////////////////////////////////////////////////////////////
 //
 //  Fraction
-//  Experimental
+//
 //  Based upon Fraction library -> fractionize()
 //
 class fraction
@@ -851,7 +882,7 @@ class fraction
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        strcpy(buffer, "inf");
+        strcpy(buffer, "+inf");
         return;
       }
       bool negative = false;
@@ -941,6 +972,7 @@ class fraction
       }
       return;
     }
+
     fraction(double value, uint32_t denominator)
     {
       if (isnan(value))
@@ -951,7 +983,7 @@ class fraction
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        strcpy(buffer, "inf");
+        strcpy(buffer, "+inf");
         return;
       }
       bool negative = false;
@@ -1018,7 +1050,7 @@ class fraction
 ////////////////////////////////////////////////////////////
 //
 //  Units
-//  Experimental
+//
 //  adds unit postfix instead of e+xx numbers
 //  uses scieng() under the hood
 //  https://en.wikipedia.org/wiki/Metric_prefix
@@ -1062,7 +1094,6 @@ class units : public eng
       return buffer;
     }
 };
-
 
 
 //  -- END OF FILE --

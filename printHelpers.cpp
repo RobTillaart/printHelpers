@@ -267,11 +267,14 @@ char * eng(double value, uint8_t decimals, bool rightAlign)
   {
     return buf;
   }
-  //  right align, adding 0,1 or 2 spaces
+  //  right align, adding 0, 1 or 2 spaces
   uint8_t len = strlen(buf);
   //  spaces = length - len;
   uint8_t spaces = 7 - len;
-  if ((buf[0] == '-') || (buf[0] == '+')) spaces++;  //  incl sign bit...
+  if ((buf[0] == '-') || (buf[0] == '+'))
+  {
+    spaces++;  //  include sign bit
+  }
 
   if (decimals > 0) spaces += (decimals + 1);
   if (spaces)
@@ -327,8 +330,9 @@ char * toBytes(double value, uint8_t decimals)
   }
   if (isinf(value))
   {
-    strcpy(buffer, "inf");
-    return buffer;
+    if (value < 0) strcpy(buffer, "-inf");
+    strcpy(buffer, "+inf");
+    return;
   }
 
   while(value >= 1024)
@@ -409,7 +413,6 @@ void hexDumpLine8(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, b
   str.println();
 }
 
-
 void hexDumpLine16(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, bool showASCII)
 {
   uint8_t pos = 0;
@@ -479,6 +482,7 @@ char * hex(uint32_t value, uint8_t digits)
 }
 
 char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
+
 char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); };
 
 
@@ -517,6 +521,7 @@ char * bin(uint32_t value, uint8_t digits)
 }
 
 char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
+
 char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); };
 
 
@@ -634,7 +639,6 @@ char * printInch(float inch, uint16_t step)
   }
   return buffer;
 }
-
 
 char * printFeet(float feet)
 {
@@ -762,7 +766,6 @@ char * csi(int8_t value, char separator)
   return csi((int32_t)value, separator);
 }
 
-
 char * csi(uint64_t value, char separator)
 {
   char * buffer = __printbuffer;
@@ -845,7 +848,7 @@ char * fraction(double value)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    strcpy(buffer, "inf");
+    strcpy(buffer, "+inf");
     return buffer;
   }
   bool negative = false;
@@ -936,7 +939,6 @@ char * fraction(double value)
   return buffer;
 }
 
-
 char * fraction(double value, uint32_t denominator)
 {
   static char buffer[20];
@@ -948,7 +950,7 @@ char * fraction(double value, uint32_t denominator)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    strcpy(buffer, "inf");
+    strcpy(buffer, "+inf");
     return buffer;
   }
   bool negative = false;
