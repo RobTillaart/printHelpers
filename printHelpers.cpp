@@ -332,7 +332,7 @@ char * toBytes(double value, uint8_t decimals)
   {
     if (value < 0) strcpy(buffer, "-inf");
     strcpy(buffer, "+inf");
-    return;
+    return buffer;
   }
 
   while(value >= 1024)
