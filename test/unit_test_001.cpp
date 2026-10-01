@@ -95,7 +95,7 @@ unittest(test_eng)
 
 unittest(test_eng_right_align)
 {
-  float value = 1.2345678;
+  float value = 1234.5678;
 
   fprintf(stderr, "VALUE = %f\n", value);
   fprintf(stderr, "%s\n", eng(value, 3, false));
