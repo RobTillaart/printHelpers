@@ -596,12 +596,9 @@ char * toRoman(int32_t value)
 char * printInch(float inch, uint16_t step)
 {
   char * buffer = __printbuffer;
-  if (inch < 0)
-  {
-    //  cannot handle negative numbers.
-    strcpy(buffer, "E-NEG");
-    return buffer;
-  }
+  bool neg = (inch < 0);
+  if (neg) inch = -inch;
+
   uint32_t whole = inch;
   uint8_t num = round((inch - whole) * step);
   if (num == step)
@@ -617,12 +614,24 @@ char * printInch(float inch, uint16_t step)
     den >>= 1;
   }
 
+  if (neg)
+  {
 #if defined(ESP32)
-  //  ESP32 does not support %ld  or ltoa()
-  sprintf(buffer, "%d %d/%d", whole, num, den);
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d %d/%d", whole, num, den);
 #else
-  sprintf(buffer, "%ld %d/%d", whole, num, den);
+    sprintf(buffer, "-%ld %d/%d", whole, num, den);
 #endif
+  }
+  else
+  {
+#if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
+    sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
+  }
   return buffer;
 }
 
@@ -630,12 +639,9 @@ char * printInch(float inch, uint16_t step)
 char * printFeet(float feet)
 {
   char * buffer = __printbuffer;
-  if (feet < 0)
-  {
-    //  cannot handle negative numbers.
-    strcpy(buffer, "E-NEG");
-    return buffer;
-  }
+  bool neg = (feet < 0);
+  if (neg) feet = -feet;
+
   uint32_t ft = feet;
   uint8_t inch = round((feet - ft) * 12);
   if (inch == 12)
@@ -643,12 +649,25 @@ char * printFeet(float feet)
     ft++;
     inch = 0;
   }
+
+  if (neg)
+  {
 #if defined(ESP32)
-  //  ESP32 does not support %ld  or ltoa()
-  sprintf(buffer, "%d\'%d\"", ft, inch);
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d\'%d\"", ft, inch);
 #else
-  sprintf(buffer, "%ld\'%d\"", ft, inch);
+    sprintf(buffer, "-%ld\'%d\"", ft, inch);
 #endif
+  }
+  else
+  {
+#if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "%d\'%d\"", ft, inch);
+#else
+    sprintf(buffer, "%ld\'%d\"", ft, inch);
+#endif
+  }
   return buffer;
 }
 
@@ -995,39 +1014,6 @@ char * fraction(double value, uint32_t denominator)
 //  uses scieng() under the hood, minimal optimized.
 //  https://en.wikipedia.org/wiki/Metric_prefix
 //
-char * units(float value, uint8_t decimals, const char * units)
-{
-  char * buf = __printbuffer;
-  eng(value, decimals, true);
-
-  uint8_t len = strlen(buf);  //  optimize spot to replace
-  if (strstr(buf, "E+"))
-  {
-    //  add prefix = "EPTGMK munpfa";
-    if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
-    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
-    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
-    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
-    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
-    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
-    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
-    else strcat(buf, " ");
-  }
-  else if (strstr(buf, "E-"))
-  {
-    if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
-    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
-    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
-    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
-    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
-    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
-    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
-    else strcat(buf, " ");
-  }
-  strcat(buf, units);
-  return buf;
-}
-
 char * units(double value, uint8_t decimals, const char * units)
 {
   char * buf = __printbuffer;
@@ -1060,37 +1046,6 @@ char * units(double value, uint8_t decimals, const char * units)
   strcat(buf, units);
   return buf;
 }
-
-/*
-void unitsReplaceSuffix(char * buf, const char * units)
-{
-  uint8_t len = strlen(buf);  //  optimize spot to replace
-  if (strstr(buf, "E+"))
-  {
-    //  add prefix = "EPTGMK munpfa";
-    if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
-    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
-    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
-    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
-    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
-    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
-    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
-    else strcat(buf, " ");
-  }
-  else if (strstr(buf, "E-"))
-  {
-    if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
-    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
-    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
-    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
-    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
-    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
-    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
-    else strcat(buf, " ");
-  }
-  strcat(buf, units);
-}
-*/
 
 
 //  -- END OF FILE --

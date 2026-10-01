@@ -595,12 +595,9 @@ class printInch
   public:
     printInch(float inch, uint16_t step = 16)
     {
-      if (inch < 0)
-      {
-        //  cannot handle negative numbers.
-        strcpy(buffer, "E-NEG");
-        return;
-      }
+      bool neg = (inch < 0);
+      if (neg) inch = -inch;
+
       uint32_t whole = inch;
       uint8_t num = round((inch - whole) * step);
       if (num == step)
@@ -616,12 +613,24 @@ class printInch
         den >>= 1;
       }
 
+      if (neg)
+      {
 #if defined(ESP32)
-      //  ESP32 does not support %ld  or ltoa()
-      sprintf(buffer, "%d %d/%d", whole, num, den);
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "-%d %d/%d", whole, num, den);
 #else
-      sprintf(buffer, "%ld %d/%d", whole, num, den);
+        sprintf(buffer, "-%ld %d/%d", whole, num, den);
 #endif
+      }
+      else
+      {
+#if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
+        sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
+      }
       return;
     }
 
@@ -639,12 +648,9 @@ class printFeet
   public:
     printFeet(float feet)
     {
-       if (feet < 0)
-      {
-        //  cannot handle negative numbers.
-        strcpy(buffer, "E-NEG");
-        return;
-      }
+      bool neg = (feet < 0);
+      if (neg) feet = -feet;
+
       uint32_t ft = feet;
       uint8_t inch = round((feet - ft) * 12);
       if (inch == 12)
@@ -1019,7 +1025,7 @@ class fraction
 class units : public eng
 {
   public:
-    units(float value, uint8_t decimals, const char * units)
+    units(double value, uint8_t decimals, const char * units)
         : eng(value, decimals, true)
     {
       char * buf = buffer;

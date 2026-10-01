@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix #34, right align eng() for negative values.
 - add unit test for #34, test_eng_right_align
 - change "inf" into "+inf" to be more explicit.
-- add units(double, ...) for the decimals
+- change units(float, ...) to units(double, ...) for the decimals
+- support negative numbers for printInch() and printFeet()
 - minor edits
 
 ----

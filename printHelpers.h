@@ -163,7 +163,6 @@ char * fraction(double value, uint32_t denom);
 //  adds unit postfix instead of e+xx numbers
 //  uses scieng() under the hood
 //
-char * units(float value, uint8_t decimals, const char * units);
 char * units(double value, uint8_t decimals, const char * units);
 
 

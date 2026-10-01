@@ -377,7 +377,8 @@ There is no **roman2integer()** function (yet).
 ### Distance feet inch
 
 Note that both inch and feet should be positive or zero.
-A negative value will return an error ("E-NEG").
+Since 0.6.0 negative values are supported. 
+So there is no error "E-NEG" any more.
 
 - **char \* printInch(float inch, uint16_t step = 16)** prints a float inch distance 
 default in sixteenth ```a b/16```.
@@ -540,7 +541,7 @@ This version needs more testing / verification e.g. in RTOS.
 
 ### Units()
 
-- **units(float value, uint8_t decimals, const char \* units)**
+- **units(double value, uint8_t decimals, const char \* units)**
 
 
 ----
@@ -559,7 +560,6 @@ This version needs more testing / verification e.g. in RTOS.
 - improve readability of the code
   - em ==> exponentFactor?
 - fraction has a static buffer => use shared PRINTBUFFER??
-
 
 #### Could
 
@@ -583,9 +583,8 @@ This version needs more testing / verification e.g. in RTOS.
   - split in 2 functions - array as HEX, array as TEXT
     and make hexDumpLine a wrapper.
   - column ADDRESS only 4 positions 0x0000..0xFFFF
-- some functions are float, other double
-  - align to float/double only? Template?
-  - printInch, printFeet, units.
+- **printInch()**, **printFeet()** are float, other double
+  - align to double only? accuracy?
 
 
 #### Wont

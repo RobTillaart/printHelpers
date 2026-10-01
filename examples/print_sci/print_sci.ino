@@ -77,7 +77,7 @@ void setup()
 
 
   E /= 100;  //  more interesting effect
-  Serial.println("eng() aligned");
+  Serial.println("eng() right aligned");
   for (int i = 1; i < 5; i++)
   {
     Serial.println(eng(E, 8, true));
