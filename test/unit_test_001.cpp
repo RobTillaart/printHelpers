@@ -80,9 +80,6 @@ unittest(test_sci)
 
 unittest(test_eng)
 {
-  int32_t value32 = 1UL << 25;
-
-  fprintf(stderr, "VALUE32 = %d\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
   fprintf(stderr, "%s\n", eng(PI * 100, 6));
   fprintf(stderr, "%s\n", eng(PI * 10, 6));
@@ -98,9 +95,9 @@ unittest(test_eng)
 
 unittest(test_eng_right_align)
 {
-  int32_t value = 1.2345678;
+  float value = 1.2345678;
 
-  fprintf(stderr, "VALUE = %d\n", value);
+  fprintf(stderr, "VALUE = %f\n", value);
   fprintf(stderr, "%s\n", eng(value, 3, false));
   fprintf(stderr, "%s\n", eng(value, 3, true));
   fprintf(stderr, "%s\n", eng(-value, 3, false));

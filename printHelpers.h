@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.3
+// VERSION: 0.6.0
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -13,7 +13,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.3"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.6.0"))
 #endif
 
 
@@ -164,6 +164,7 @@ char * fraction(double value, uint32_t denom);
 //  uses scieng() under the hood
 //
 char * units(float value, uint8_t decimals, const char * units);
+char * units(double value, uint8_t decimals, const char * units);
 
 
 //  -- END OF FILE --

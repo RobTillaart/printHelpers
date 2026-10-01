@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.6.0] - 2026-10-01
+- fix #34, right align eng() for negative values.
+- add unit test for #34, test_eng_right_align
+- change "inf" into "+inf" to be more explicit.
+- add units(double, ...) for the decimals
+- minor edits
+
+----
+
 ## [0.5.3] - 2026-07-17
 - fix #32, use printHelpersMT in printf().
 - add hexDumpLine8() and hexDumpLine16() - (experimental)

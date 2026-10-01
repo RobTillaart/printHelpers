@@ -177,7 +177,8 @@ Values printed with **eng()** do not always look pretty in column output.
 This is due to the exponent power of 3. However its output translates easy to
 thousands, millions, billions, and millis, micros, nano etc. which are powers of 3.
 When the flag **rightAlign** is set to true, one or two spaces are added if needed.
-This results in decimal point aligned columns (experimental since 0.5.1)
+This results in decimal point aligned columns (experimental since 0.5.1,
+fixed for negative values in 0.6.0)
 
 - **char \* scieng(double value, uint8_t decimals, uint8_t exponentMultiple)** converts a
 float or double to a char array.
@@ -196,7 +197,7 @@ the function **scieng()** will print e.g. x.xxxxxE+00, with the exponent set to 
 Although this is technically a bug it could be a feature for someone.
 So I decided to leave this behaviour in the code.
 
-Note: **scieng()** checks for, and can return "nan", "-inf" and "inf".
+Note: **scieng()** checks for, and can return "nan", "-inf" and "+inf".
 
 
 ### toBytes()
@@ -582,6 +583,10 @@ This version needs more testing / verification e.g. in RTOS.
   - split in 2 functions - array as HEX, array as TEXT
     and make hexDumpLine a wrapper.
   - column ADDRESS only 4 positions 0x0000..0xFFFF
+- some functions are float, other double
+  - align to float/double only? Template?
+  - printInch, printFeet, units.
+
 
 #### Wont
 

@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.3"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.6.0"))
 #endif
 
 
@@ -171,7 +171,7 @@ class scieng
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        else strcpy(buffer, "inf");
+        else strcpy(buffer, "+inf");
         return;
       }
 
@@ -1029,24 +1029,24 @@ class units : public eng
       if (strstr(buf, "E+"))
       {
         //  add prefix = "EPTGMK munpfa";
-        if (strstr(buf, "E+18")) strcpy(&buf[len - 4], " E");
-        else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");
-        else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");
-        else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");
-        else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");
-        else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");
-        else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");
+        if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
+        else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
+        else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
+        else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
+        else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
+        else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
+        else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
         else strcat(buf, " ");
       }
       else if (strstr(buf, "E-"))
       {
-        if (strstr(buf, "E-00")) strcpy(&buf[len - 4], "  ");
-        else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");
-        else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");
-        else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");
-        else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");
-        else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");
-        else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");
+        if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
+        else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
+        else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
+        else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
+        else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
+        else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
+        else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
         else strcat(buf, " ");
       }
       strcat(buf, units);

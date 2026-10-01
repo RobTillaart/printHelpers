@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.3
+// VERSION: 0.6.0
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -168,7 +168,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    else strcpy(buffer, "inf");
+    else strcpy(buffer, "+inf");
     return buffer;
   }
 
@@ -178,6 +178,12 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
     buffer[pos++] = '-';
     value = -value;
   }
+  //  Explicit sign
+  // else
+  // {
+    // buffer[pos++] = '+';
+  // }
+
 
   //  Scale exponent to multiple of em
   //  loop can be removed by using pow and log however
@@ -214,7 +220,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  print whole part
 #if defined(ESP32)
-  //  ESP32 does not support %ld  or ltoa()
+  //  ESP32 does not support %ld or ltoa()
   itoa(d, &buffer[pos], 10);
 #else
   sprintf(&buffer[pos], "%ld", d);
@@ -265,6 +271,8 @@ char * eng(double value, uint8_t decimals, bool rightAlign)
   uint8_t len = strlen(buf);
   //  spaces = length - len;
   uint8_t spaces = 7 - len;
+  if ((buf[0] == '-') || (buf[0] == '+')) spaces++;  //  incl sign bit...
+
   if (decimals > 0) spaces += (decimals + 1);
   if (spaces)
   {
@@ -996,29 +1004,93 @@ char * units(float value, uint8_t decimals, const char * units)
   if (strstr(buf, "E+"))
   {
     //  add prefix = "EPTGMK munpfa";
-    if (strstr(buf, "E+18")) strcpy(&buf[len - 4], " E");
-    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");
-    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");
-    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");
-    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");
-    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");
-    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");
+    if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
+    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
+    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
+    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
+    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
+    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
+    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
     else strcat(buf, " ");
   }
   else if (strstr(buf, "E-"))
   {
-    if (strstr(buf, "E-00")) strcpy(&buf[len - 4], "  ");
-    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");
-    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");
-    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");
-    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");
-    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");
-    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");
+    if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
+    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
+    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
+    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
+    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
+    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
+    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
     else strcat(buf, " ");
   }
   strcat(buf, units);
   return buf;
 }
+
+char * units(double value, uint8_t decimals, const char * units)
+{
+  char * buf = __printbuffer;
+  eng(value, decimals, true);
+
+  uint8_t len = strlen(buf);  //  optimize spot to replace
+  if (strstr(buf, "E+"))
+  {
+    //  add prefix = "EPTGMK munpfa";
+    if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
+    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
+    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
+    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
+    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
+    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
+    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
+    else strcat(buf, " ");
+  }
+  else if (strstr(buf, "E-"))
+  {
+    if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
+    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
+    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
+    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
+    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
+    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
+    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
+    else strcat(buf, " ");
+  }
+  strcat(buf, units);
+  return buf;
+}
+
+/*
+void unitsReplaceSuffix(char * buf, const char * units)
+{
+  uint8_t len = strlen(buf);  //  optimize spot to replace
+  if (strstr(buf, "E+"))
+  {
+    //  add prefix = "EPTGMK munpfa";
+    if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
+    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
+    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
+    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
+    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
+    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
+    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
+    else strcat(buf, " ");
+  }
+  else if (strstr(buf, "E-"))
+  {
+    if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
+    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
+    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
+    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
+    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
+    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
+    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
+    else strcat(buf, " ");
+  }
+  strcat(buf, units);
+}
+*/
 
 
 //  -- END OF FILE --
