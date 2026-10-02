@@ -14,7 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - support negative numbers for printInch() and printFeet()
   - update unit tests
 - change units(float, ...) to units(double, ...) for the decimals
-- update readme.md 
+- update readme.md
+- fix frameworks in library.json
 - minor edits
 
 ----
@@ -34,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edits
 
 ## [0.5.1] - 2025-12-29
-- fix #26, add units() e.g. to replace E+xx => mVolt 
+- fix #26, add units() e.g. to replace E+xx => mVolt
 - fix #27, add rightAlign to eng() notation.
 - update examples
 - update GitHub actions
