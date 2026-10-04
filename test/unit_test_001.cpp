@@ -125,11 +125,11 @@ unittest(test_fixed_length)
   assertEqual(0, strcmp("1234.6", fixedLength(value, 6, true) ));
   assertEqual(0, strcmp("1234.5", fixedLength(value, 6, false) ));
 
-  fprintf(stderr, "\nLength error");
+  fprintf(stderr, "\nLength error\n");
   assertEqual(0, strcmp("E",   fixedLength(value, 0, false) ));
   assertEqual(0, strcmp("E",   fixedLength(value, 9, false) ));
 
-  fprintf(stderr, "\nOverflow");
+  fprintf(stderr, "\nOverflow\n");
   assertEqual(0, strcmp("+++", fixedLength(value, 3, false) ));
   assertEqual(0, strcmp("---", fixedLength(-value, 3, false) ));
 
