@@ -302,6 +302,7 @@ size_t sci(Stream &str, double value, uint8_t decimals)
 ////////////////////////////////////////////////////////////
 //
 //  fixedLength()
+//  Experimental
 //
 char * fixedLength(float value, uint8_t maxLength, bool rounding)
 {
@@ -582,9 +583,15 @@ char * hex(uint32_t value, uint8_t digits)
   return buffer;
 }
 
-char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
+char * hex(uint16_t value, uint8_t digits)
+{
+  return hex((uint32_t) value, digits);
+}
 
-char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); };
+char * hex(uint8_t value, uint8_t digits)
+{
+  return hex((uint32_t) value, digits);
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -621,9 +628,15 @@ char * bin(uint32_t value, uint8_t digits)
   return buffer;
 }
 
-char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
+char * bin(uint16_t value, uint8_t digits)
+{
+  return bin((uint32_t) value, digits);
+}
 
-char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); };
+char * bin(uint8_t value, uint8_t digits)
+{
+  return bin((uint32_t) value, digits);
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -733,7 +746,7 @@ char * printInch(float inch, uint16_t step)
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "%d %d/%d", whole, num, den);
+    sprintf(buffer, "%u %d/%d", whole, num, den);
 #else
     sprintf(buffer, "%lu %d/%d", whole, num, den);
 #endif
@@ -768,9 +781,9 @@ char * printFeet(float feet)
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "%d\'%d\"", ft, inch);
+    sprintf(buffer, "%u\'%d\"", ft, inch);
 #else
-    sprintf(buffer, "%ld\'%d\"", ft, inch);
+    sprintf(buffer, "%lu\'%d\"", ft, inch);
 #endif
   }
   return buffer;
@@ -867,6 +880,7 @@ char * csi(int8_t value, char separator)
   return csi((int32_t)value, separator);
 }
 
+//  UNSIGNED
 char * csi(uint64_t value, char separator)
 {
   char * buffer = __printbuffer;

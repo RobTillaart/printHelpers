@@ -299,6 +299,7 @@ class sci : public scieng
 ////////////////////////////////////////////////////////////
 //
 //  fixedLength()
+//  Experimental
 //
 //  user must check if the value is within min-max range
 //  e.g. range might not be symmetrical -273..2000
@@ -345,7 +346,11 @@ class fixedLength
         else          strcpy(buffer, "+++");
         return;
       }
-      ltoa(whole, &buffer[pos], 10);
+#if defined(ESP32)
+      itoa(whole, &buffer[pos], 10);
+#else
+      sprintf(&buffer[pos], "%u", whole);
+#endif
       pos = strlen(buffer);
 
       if (rounding == true)
@@ -364,7 +369,11 @@ class fixedLength
           whole = v;
           pos = 0;
           if (negative) pos++;
-          ltoa(whole, &buffer[pos], 10);
+#if defined(ESP32)
+          itoa(whole, &buffer[pos], 10);
+#else
+          sprintf(&buffer[pos], "%u", whole);
+#endif
           pos = strlen(buffer);
         }
       }
@@ -396,7 +405,6 @@ class fixedLength
       }
       //  end of array
       buffer[pos] = 0;
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
@@ -693,7 +701,6 @@ class toRoman
         };
         idx++;
       }
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
@@ -705,6 +712,7 @@ class toRoman
 ////////////////////////////////////////////////////////////
 //
 //  Distances
+//  Experimental
 //
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 class printInch
@@ -737,21 +745,20 @@ class printInch
       {
 #if defined(ESP32)
         //  ESP32 does not support %ld  or ltoa()
-        sprintf(buffer, "-%d %d/%d", whole, num, den);
+        sprintf(buffer, "-%u %d/%d", whole, num, den);
 #else
-        sprintf(buffer, "-%ld %d/%d", whole, num, den);
+        sprintf(buffer, "-%lu %d/%d", whole, num, den);
 #endif
       }
       else
       {
 #if defined(ESP32)
         //  ESP32 does not support %ld  or ltoa()
-        sprintf(buffer, "%d %d/%d", whole, num, den);
+        sprintf(buffer, "%u %d/%d", whole, num, den);
 #else
-        sprintf(buffer, "%ld %d/%d", whole, num, den);
+        sprintf(buffer, "%lu %d/%d", whole, num, den);
 #endif
       }
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
@@ -783,21 +790,20 @@ class printFeet
       {
  #if defined(ESP32)
         //  ESP32 does not support %ld  or ltoa()
-        sprintf(buffer, "-%d\'%d\"", ft, inch);
+        sprintf(buffer, "-%u\'%d\"", ft, inch);
 #else
-        sprintf(buffer, "-%ld\'%d\"", ft, inch);
+        sprintf(buffer, "-%lu\'%d\"", ft, inch);
 #endif
       }
       else
       {
  #if defined(ESP32)
         //  ESP32 does not support %ld  or ltoa()
-        sprintf(buffer, "%d\'%d\"", ft, inch);
+        sprintf(buffer, "%u\'%d\"", ft, inch);
 #else
-        sprintf(buffer, "%ld\'%d\"", ft, inch);
+        sprintf(buffer, "%lu\'%d\"", ft, inch);
 #endif
       }
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
@@ -809,6 +815,7 @@ class printFeet
 ////////////////////////////////////////////////////////////
 //
 //  Comma Separated Integers
+//  Experimental
 //
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
@@ -851,7 +858,6 @@ class csi
         buffer[j] = buffer[i];
         buffer[i] = t;
       }
-      return;
     }
 
     csi(int32_t value, char separator = ',')
@@ -886,7 +892,6 @@ class csi
         buffer[j] = buffer[i];
         buffer[i] = t;
       }
-      return;
     }
 
     csi(int16_t value, char separator = ',')
@@ -924,7 +929,6 @@ class csi
         buffer[j] = buffer[i];
         buffer[i] = t;
       }
-      return;
     }
 
     csi(uint32_t value, char separator = ',')
@@ -950,7 +954,6 @@ class csi
         buffer[j] = buffer[i];
         buffer[i] = t;
       }
-      return;
     }
 
     csi(uint16_t value, char separator = ',')
@@ -1079,7 +1082,6 @@ class fraction
         sprintf(buffer, "%ld/%ld", highN, highD);
         #endif
       }
-      return;
     }
 
     fraction(double value, uint32_t denominator)
@@ -1146,7 +1148,6 @@ class fraction
         sprintf(buffer, "%ld/%ld", numerator, denominator);
         #endif
       }
-      return;
     }
 
     inline operator char *() __attribute__((always_inline)) {
