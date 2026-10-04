@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add fixedLength(float, length, rounding) - multi-threaded version.
 - add example print_fixedLength.ino with some test cases.
 - add example print_fixedLengthMT.ino
+- add unit test (start) for fixedLength()
 - update readme.md
 - minor edits
 
