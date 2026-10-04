@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.6.0"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.6.1"))
 #endif
 
 
@@ -293,6 +293,115 @@ class sci : public scieng
   public:
     sci(double value, uint8_t decimals) : scieng(value, decimals, 1)
     {}
+};
+
+
+////////////////////////////////////////////////////////////
+//
+//  fixedLength()
+//
+//  user must check if the value is within min-max range
+//  e.g. range might not be symmetrical -273..2000
+//  maximum value in theory 99.999.999, however it is converted to 100.000.000
+//          99.999.995 works with length 8 => shows 99999992 !!!
+//  maxLength = 1..8 as floats have max 6-7 significant digits + decimal point
+//  7 digits can already show failing accuracy
+class fixedLength
+{
+  protected:
+    char buffer[12];
+
+  public:
+    fixedLength(float value, uint8_t maxLength, bool rounding = true)
+    {
+      //  reference implementation (06)
+      //  might be more performance optimized.
+
+      //  check maxLength parameter
+      if ((maxLength < 1) || (maxLength > 8))
+      {
+        strcpy(buffer, "E");
+        return;
+      }
+
+      //  detect negative values
+      bool negative = (value < 0);
+      if (negative) value = -value;
+
+      //  track print position.
+      uint8_t pos = 0;
+      //  handle sign
+      if (negative)
+      {
+        buffer[pos++] = '-';
+      }
+
+      //  whole part
+      uint32_t whole = value;
+      //  test > maxLenth 8 positions
+      if ((whole > 99999999UL) || (value - whole > 1))
+      {
+        if (negative) strcpy(buffer, "---");
+        else          strcpy(buffer, "+++");
+        return;
+      }
+      ltoa(whole, &buffer[pos], 10);
+      pos = strlen(buffer);
+
+      if (rounding == true)
+      {
+        //  calc rounding factor
+        float rf = 0.5f;
+        //  scale rounding factor for decimals left
+        for (uint8_t i = 1; i < maxLength - pos; i++) rf *= 0.1f;
+        //  add rounding factor
+        value += rf;
+        //  redo whole part with rounded value if whole part is different
+        //  this is relative expensive.
+        uint32_t v = value;
+        if (v != whole)
+        {
+          whole = v;
+          pos = 0;
+          if (negative) pos++;
+          ltoa(whole, &buffer[pos], 10);
+          pos = strlen(buffer);
+        }
+      }
+
+      //  check value does not fit.
+      if (pos > maxLength)
+      {
+        if (negative) strcpy(buffer, "---");
+        else          strcpy(buffer, "+++");
+        return;
+      }
+
+      //  decimal part
+      float dp = value - whole;
+      if (pos + 1 == maxLength)
+      {
+        buffer[pos++] = ' ';  //  no place for decimals, so no point
+      }
+      if (pos < maxLength)
+      {
+        buffer[pos++] = '.';
+      }
+      while (pos < maxLength)
+      {
+        dp *= 10.0f;
+        uint8_t digit = dp;
+        dp -= digit;
+        buffer[pos++] = digit + '0';
+      }
+      //  end of array
+      buffer[pos] = 0;
+      return;
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
 };
 
 

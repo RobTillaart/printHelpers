@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -296,6 +296,99 @@ char * sci(double value, uint8_t decimals)
 size_t sci(Stream &str, double value, uint8_t decimals)
 {
   return str.print(sci(value, decimals));
+}
+
+
+////////////////////////////////////////////////////////////
+//
+//  fixedLength()
+//
+char * fixedLength(float value, uint8_t maxLength, bool rounding = true)
+{
+  //  reference implementation (06)
+  //  might be more performance optimized.
+  char *  buffer   = __printbuffer;
+
+  //  check maxLength parameter
+  if ((maxLength < 1) || (maxLength > 8))
+  {
+    strcpy(buffer, "E");
+    return buffer;
+  }
+
+  //  detect negative values
+  bool negative = (value < 0);
+  if (negative) value = -value;
+
+  //  track print position.
+  uint8_t pos = 0;
+  //  handle sign
+  if (negative)
+  {
+    buffer[pos++] = '-';
+  }
+
+  //  whole part
+  uint32_t whole = value;
+  //  test > maxLenth 8 positions
+  if ((whole > 99999999UL) || (value - whole > 1))
+  {
+    if (negative) strcpy(buffer, "---");
+    else          strcpy(buffer, "+++");
+    return buffer;
+  }
+  ltoa(whole, &buffer[pos], 10);
+  pos = strlen(buffer);
+
+  if (rounding == true)
+  {
+    //  calc rounding factor
+    float rf = 0.5f;
+    //  scale rounding factor for decimals left
+    for (uint8_t i = 1; i < maxLength - pos; i++) rf *= 0.1f;
+    //  add rounding factor
+    value += rf;
+    //  redo whole part with rounded value if whole part is different
+    //  this is relative expensive.
+    uint32_t v = value;
+    if (v != whole)
+    {
+      whole = v;
+      pos = 0;
+      if (negative) pos++;
+      ltoa(whole, &buffer[pos], 10);
+      pos = strlen(buffer);
+    }
+  }
+
+  //  check value does not fit.
+  if (pos > maxLength)
+  {
+    if (negative) strcpy(buffer, "---");
+    else          strcpy(buffer, "+++");
+    return buffer;
+  }
+
+  //  decimal part
+  float dp = value - whole;
+  if (pos + 1 == maxLength)
+  {
+    buffer[pos++] = ' ';  //  no place for decimals, so no point
+  }
+  if (pos < maxLength)
+  {
+    buffer[pos++] = '.';
+  }
+  while (pos < maxLength)
+  {
+    dp *= 10.0f;
+    uint8_t digit = dp;
+    dp -= digit;
+    buffer[pos++] = digit + '0';
+  }
+  //  end of array
+  buffer[pos] = 0;
+  return buffer;
 }
 
 
