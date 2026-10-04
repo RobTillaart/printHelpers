@@ -303,7 +303,7 @@ size_t sci(Stream &str, double value, uint8_t decimals)
 //
 //  fixedLength()
 //
-char * fixedLength(float value, uint8_t maxLength, bool rounding = true)
+char * fixedLength(float value, uint8_t maxLength, bool rounding)
 {
   //  reference implementation (06)
   //  might be more performance optimized.
