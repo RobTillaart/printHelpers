@@ -223,7 +223,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   //  ESP32 does not support %ld or ltoa()
   itoa(d, &buffer[pos], 10);
 #else
-  sprintf(&buffer[pos], "%ld", d);
+  sprintf(&buffer[pos], "%lu", d);
 #endif
   //  how far is the buffer filled?
   pos = strlen(buffer);
@@ -337,7 +337,11 @@ char * fixedLength(float value, uint8_t maxLength, bool rounding)
     else          strcpy(buffer, "+++");
     return buffer;
   }
+#if defined(ESP32)
+  itoa(whole, &buffer[pos], 10);
+#else
   ltoa(whole, &buffer[pos], 10);
+#endif
   pos = strlen(buffer);
 
   if (rounding == true)
@@ -356,7 +360,11 @@ char * fixedLength(float value, uint8_t maxLength, bool rounding)
       whole = v;
       pos = 0;
       if (negative) pos++;
+#if defined(ESP32)
+      itoa(whole, &buffer[pos], 10);
+#else
       ltoa(whole, &buffer[pos], 10);
+#endif
       pos = strlen(buffer);
     }
   }
@@ -716,9 +724,9 @@ char * printInch(float inch, uint16_t step)
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d %d/%d", whole, num, den);
+    sprintf(buffer, "-%u %d/%d", whole, num, den);
 #else
-    sprintf(buffer, "-%ld %d/%d", whole, num, den);
+    sprintf(buffer, "-%lu %d/%d", whole, num, den);
 #endif
   }
   else
@@ -727,7 +735,7 @@ char * printInch(float inch, uint16_t step)
     //  ESP32 does not support %ld  or ltoa()
     sprintf(buffer, "%d %d/%d", whole, num, den);
 #else
-    sprintf(buffer, "%ld %d/%d", whole, num, den);
+    sprintf(buffer, "%lu %d/%d", whole, num, den);
 #endif
   }
   return buffer;
@@ -751,9 +759,9 @@ char * printFeet(float feet)
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d\'%d\"", ft, inch);
+    sprintf(buffer, "-%u\'%d\"", ft, inch);
 #else
-    sprintf(buffer, "-%ld\'%d\"", ft, inch);
+    sprintf(buffer, "-%lu\'%d\"", ft, inch);
 #endif
   }
   else
