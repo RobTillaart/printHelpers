@@ -349,7 +349,7 @@ class fixedLength
 #if defined(ESP32)
       itoa(whole, &buffer[pos], 10);
 #else
-      sprintf(&buffer[pos], "%u", whole);
+      sprintf(&buffer[pos], "%lu", whole);
 #endif
       pos = strlen(buffer);
 
@@ -372,7 +372,7 @@ class fixedLength
 #if defined(ESP32)
           itoa(whole, &buffer[pos], 10);
 #else
-          sprintf(&buffer[pos], "%u", whole);
+          sprintf(&buffer[pos], "%lu", whole);
 #endif
           pos = strlen(buffer);
         }

@@ -223,7 +223,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   //  ESP32 does not support %ld or ltoa()
   itoa(d, &buffer[pos], 10);
 #else
-  sprintf(&buffer[pos], "%u", d);
+  sprintf(&buffer[pos], "%lu", d);
 #endif
   //  how far is the buffer filled?
   pos = strlen(buffer);
@@ -341,7 +341,7 @@ char * fixedLength(float value, uint8_t maxLength, bool rounding)
 #if defined(ESP32)
   itoa(whole, &buffer[pos], 10);
 #else
-  sprintf(&buffer[pos], "%u", whole);
+  sprintf(&buffer[pos], "%lu", whole);
 #endif
   pos = strlen(buffer);
 
@@ -364,7 +364,7 @@ char * fixedLength(float value, uint8_t maxLength, bool rounding)
 #if defined(ESP32)
       itoa(whole, &buffer[pos], 10);
 #else
-      sprintf(&buffer[pos], "%u", whole);
+      sprintf(&buffer[pos], "%lu", whole);
 #endif
       pos = strlen(buffer);
     }

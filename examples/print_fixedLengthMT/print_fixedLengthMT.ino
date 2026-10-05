@@ -1,9 +1,9 @@
-//    FILE: print_fixedLength.ino
+//    FILE: print_fixedLengthMT.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test printing with fixed space for float
 //     URL: https://github.com/RobTillaart/printHelpers
 
-#include "printHelpers.h"
+#include "printHelpersMT.h"
 
 uint32_t start, stop;
 
